@@ -1,38 +1,39 @@
-# Visão geral
+# Overview
 
-Template de ambiente de dev baseado em [code-server](https://github.com/coder/code-server), com
-Claude Code CLI, `ai-jail` e Docker-out-of-Docker já configurados. Tudo mora dentro de
-`.code-server/` (não polui a raiz do monorepo que usar este template) e é controlado por dois
-executáveis: `setup` (escolhe as stacks de tecnologia que entram na imagem) e `start` (sobe o
-ambiente numa janela nativa).
+Dev environment template based on [code-server](https://github.com/coder/code-server), with the
+Claude Code CLI, `ai-jail`, and Docker-out-of-Docker already set up. Everything lives inside
+`.code-server/` (doesn't clutter the root of the monorepo that adopts this template) and is
+controlled by two executables: `setup` (chooses the tech stacks that go into the image) and
+`start` (brings up the environment in a native window).
 
-O design completo — decisões tomadas, estrutura de `core/`/`stacks/`, formato do manifest, bugs já
-encontrados e corrigidos — está em [`.code-server/docs/OVERVIEW.md`](../.code-server/docs/OVERVIEW.md).
-Este documento aqui é só o resumo de "como usar".
+The full design — decisions made, the structure of `core/`/`stacks/`, the manifest format, bugs
+already hit and fixed — is in
+[`.code-server/docs/OVERVIEW.md`](../.code-server/docs/OVERVIEW.md). This document is just the
+"how to use it" summary.
 
-## Como iniciar o ambiente
+## Starting the environment
 
-Pré-requisitos no host: `jq`, `whiptail`, `docker` (pro `setup`); Rust/`cargo` + as libs do Tauri
-pra Linux (pro `start` — ver `.code-server/docs/OVERVIEW.md` pros pacotes exatos por distro).
+Prerequisites on the host: `jq`, `whiptail`, `docker` (for `setup`); Rust/`cargo` + the Tauri libs
+for Linux (for `start` — see `.code-server/docs/OVERVIEW.md` for the exact packages per distro).
 
-1. **Builda a imagem** (escolhe as stacks do monorepo, gera o Dockerfile e builda):
+1. **Build the image** (choose the monorepo's stacks, generate the Dockerfile, and build it):
    ```bash
    .code-server/setup
    ```
-   Reroda o `setup` sempre que quiser adicionar ou remover uma stack.
+   Rerun `setup` any time you want to add or remove a stack.
 
-2. **Builda o app que abre o ambiente** (só precisa fazer isso uma vez, ou de novo se o
-   `main.rs`/`Cargo.toml` mudar):
+2. **Build the app that opens the environment** (only needs to be done once, or again if
+   `main.rs`/`Cargo.toml` changes):
    ```bash
    cd .code-server/start
    cargo build --release
    ```
 
-3. **Sobe o ambiente**:
+3. **Bring up the environment**:
    ```bash
    .code-server/start/target/release/start
    ```
-   Na primeira vez cria o container (`docker run`, com o workspace montado); nas próximas só
-   garante que ele está rodando (`docker start`) e abre a janela. Não precisa passar nenhuma env
-   var pra rodar de dentro da própria estrutura do repo — nome de imagem/container e
-   `START_WORKSPACE_DIR` têm default derivado automaticamente.
+   The first time it creates the container (`docker run`, with the workspace mounted); on
+   subsequent runs it just ensures the container is running (`docker start`) and opens the window.
+   No env var needs to be passed to run it from within the repo's own structure — image/container
+   name and `START_WORKSPACE_DIR` have an automatically derived default.

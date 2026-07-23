@@ -21,7 +21,7 @@ By default, treat work in this repo as guided pair programming, not delegated im
 work through open design questions one at a time — present 2-3 options with a short tradeoff and
 a recommendation, let the user pick, then move to the next item. Don't front-load a full design
 doc or make several decisions on the user's behalf in one pass. Only write or edit code once the
-user gives an explicit go-ahead for that scoped piece of work (e.g. "pode escrever", "faça tudo")
+user gives an explicit go-ahead for that scoped piece of work (e.g. "go ahead", "do it all")
 — don't implement unilaterally before that. If there's a genuine verification gap (e.g. no
 toolchain available locally to build/run something), say so plainly before writing and let the
 user decide how to handle it, rather than claiming untested code works.
