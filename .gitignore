@@ -1,0 +1,3 @@
+.code-server/Dockerfile
+.code-server/start/target/
+.code-server/start/gen/schemas/
