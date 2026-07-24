@@ -40,6 +40,11 @@ exact packages per distro).
 
 - `java`
 - `cpp`
+- `dotnet`
+- `python`
+- `golang`
+- `ruby`
+- `php`
 
 Select/change them by rerunning `.code-server/setup`.
 
