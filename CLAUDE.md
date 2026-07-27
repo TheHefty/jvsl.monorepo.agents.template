@@ -4,10 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A reusable template for a code-server-based dev container, meant to be dropped into other
-monorepos. It is not itself an application — there's no product code here, only the tooling that
-builds and launches the dev environment. Everything lives under `.code-server/`, mirroring how a
-`.devcontainer/` would work, so a monorepo that adopts this template keeps its own repo root free.
+A reusable template for a code-server-based dev container, meant to be added to other monorepos as
+a git submodule at `.code-server/` (the officially documented way to consume it — not a copy-paste
+drop-in). It is not itself an application — there's no product code here, only the tooling that
+builds and launches the dev environment. Everything the template owns lives under `.code-server/`,
+mirroring how a `.devcontainer/` would work; the only thing a consuming monorepo keeps at its own
+root is `.code-server.stack.json` (the per-project stack selection — see "Manifest" in
+`.code-server/docs/OVERVIEW.md` for why it can't live inside the submodule itself).
 
 Full design rationale — every decision made, the exact structure of `core/`/`stacks/`, the manifest
 format, and every build error hit and fixed along the way — is recorded in
@@ -26,12 +29,13 @@ user gives an explicit go-ahead for that scoped piece of work (e.g. "go ahead", 
 toolchain available locally to build/run something), say so plainly before writing and let the
 user decide how to handle it, rather than claiming untested code works.
 
-When this template is dropped into a new project (bootstrapping), the agent must start by asking
-about the project's purpose — domain, goals, and any constraints already known — before touching
-files. Update the base files (`README.md`, `CLAUDE.md`, `docs/OVERVIEW.md`, and any stack
-selection in `.code-server/.stack.json`) to reflect the answers, and propose/assemble an initial
-structure for the new project based on them, following the one-decision-at-a-time approach above
-rather than generating the whole thing unprompted.
+When this template is added to a new project (bootstrapping, via `git submodule add <this-repo>
+.code-server`), the agent must start by asking about the project's purpose — domain, goals, and
+any constraints already known — before touching files. Update the base files (`README.md`,
+`CLAUDE.md`, `docs/OVERVIEW.md`, and any stack selection in `.code-server.stack.json` at the
+consuming repo's root) to reflect the answers, and propose/assemble an initial structure for the
+new project based on them, following the one-decision-at-a-time approach above rather than
+generating the whole thing unprompted.
 
 ## Commands
 
@@ -63,9 +67,11 @@ Launch the environment:
   divergence within a stack is handled with a shell `if` inside the same fragment, not a separate
   directory per version) and a `versions.json` listing valid versions. `java` is currently the only
   stack, meant as the pattern to copy for new ones.
-- **`.code-server/setup`** — bash script: reads `.code-server/.stack.json` (the versioned manifest,
-  the source of truth for stack selection), shows a `whiptail` multi-select checklist pre-populated
-  from it, asks a version per selected stack, rewrites the manifest, concatenates
+- **`.code-server/setup`** — bash script: reads `.code-server.stack.json` at the consuming repo's
+  root (one level above `.code-server/` — the versioned manifest, the source of truth for stack
+  selection; lives outside the submodule so it survives `git submodule` updates instead of being
+  local, uncommittable state inside vendored code), shows a `whiptail` multi-select checklist
+  pre-populated from it, asks a version per selected stack, rewrites the manifest, concatenates
   `core/Dockerfile.frag` + each selected stack's fragment into `.code-server/Dockerfile`
   (gitignored — always regenerated, never hand-edited), and runs `docker build`. Removing a stack
   is just excluding it from the manifest; there's no uninstall logic, the image is always rebuilt

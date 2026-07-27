@@ -45,8 +45,11 @@ exact packages per distro).
 - `golang`
 - `ruby`
 - `php`
+- `node`
 
-Select/change them by rerunning `.code-server/setup`.
+Select/change them by rerunning `.code-server/setup`. None of them are mandatory — deselecting
+everything builds an image with just the core layer (code-server, Claude Code CLI, `ai-jail`,
+Docker-out-of-Docker).
 
 ## Docs
 

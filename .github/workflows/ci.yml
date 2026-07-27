@@ -40,3 +40,37 @@ jobs:
       - name: cargo check
         working-directory: .code-server/start
         run: cargo check --release
+
+  core-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker build core only
+        working-directory: .code-server
+        run: docker build -f core/Dockerfile.frag -t core-ci .
+
+  discover-stacks:
+    runs-on: ubuntu-latest
+    outputs:
+      stacks: ${{ steps.list.outputs.stacks }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: |
+          echo "stacks=$(ls .code-server/stacks | jq -R -s -c 'split("\n")[:-1]')" >> "$GITHUB_OUTPUT"
+
+  stack-build:
+    needs: discover-stacks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        stack: ${{ fromJson(needs.discover-stacks.outputs.stacks) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: docker build core + ${{ matrix.stack }} (lowest listed version)
+        working-directory: .code-server
+        run: |
+          version="$(jq -r '.[0]' "stacks/${{ matrix.stack }}/versions.json")"
+          { cat core/Dockerfile.frag; echo; sed "s/{{VERSION}}/$version/g" "stacks/${{ matrix.stack }}/Dockerfile.frag"; } > /tmp/Dockerfile
+          docker build -f /tmp/Dockerfile -t "stack-ci-${{ matrix.stack }}" .
