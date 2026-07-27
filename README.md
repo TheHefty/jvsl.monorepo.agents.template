@@ -13,50 +13,16 @@ not a rebase against this repo's own history. This repo itself is **not** an app
 no product code here, only the root-level scaffolding a consuming monorepo keeps outside the
 submodule.
 
-## Quick start
-
-Prerequisites on the host: `jq`, `whiptail`, `docker` (for `setup`); Rust/`cargo` + the Tauri Linux
-libs (for `start` — see [`.code-server/docs/OVERVIEW.md`](.code-server/docs/OVERVIEW.md) for the
-exact packages per distro).
+## Getting started
 
 Clone with `git clone --recurse-submodules`, or `git submodule update --init` after a plain clone —
 `.code-server/` is empty until the submodule is checked out.
 
-1. **Build the image** — interactive stack selection, generates `.code-server/Dockerfile`, and
-   builds it:
-   ```bash
-   .code-server/setup
-   ```
-   Rerun any time you want to add or remove a stack.
-
-2. **Build the launcher app** (only needed once, or again after editing
-   `.code-server/start/src/main.rs`):
-   ```bash
-   cd .code-server/start && cargo build --release
-   ```
-
-3. **Bring up the environment**:
-   ```bash
-   .code-server/start/target/release/start
-   ```
-   Opens a native window pointed at code-server, creating the container on first run and just
-   starting it on subsequent ones. No configuration is needed as long as it stays inside the repo
-   structure it was built in.
-
-## Available stacks
-
-- `java`
-- `cpp`
-- `dotnet`
-- `python`
-- `golang`
-- `ruby`
-- `php`
-- `node`
-
-Select/change them by rerunning `.code-server/setup`. None of them are mandatory — deselecting
-everything builds an image with just the core layer (code-server, Claude Code CLI, `ai-jail`,
-Docker-out-of-Docker).
+From there, build/run instructions, prerequisites, and the list of available stacks are all in
+[`.code-server/README.md`](.code-server/README.md) — this repo doesn't repeat them since they
+belong to the template, not to being a consumer of it. The one thing specific to this side of the
+submodule boundary is `.code-server.stack.json` at this repo's own root: the per-project stack
+selection, written by `.code-server/setup`.
 
 ## Docs
 
