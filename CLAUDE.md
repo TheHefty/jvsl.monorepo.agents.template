@@ -4,19 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repository is
 
-A reusable template for a code-server-based dev container, meant to be added to other monorepos as
-a git submodule at `.code-server/` (the officially documented way to consume it — not a copy-paste
-drop-in). It is not itself an application — there's no product code here, only the tooling that
-builds and launches the dev environment. Everything the template owns lives under `.code-server/`,
-mirroring how a `.devcontainer/` would work; the only thing a consuming monorepo keeps at its own
-root is `.code-server.stack.json` (the per-project stack selection — see "Manifest" in
-`.code-server/docs/OVERVIEW.md` for why it can't live inside the submodule itself).
+A reference monorepo that has already adopted the code-server dev-container template. The template
+itself — `core/`, `stacks/`, `start/`, `setup`, and the full design-rationale doc — lives in its own
+repo, [`jvsl.env.agents.code-server`](https://github.com/TheHefty/jvsl.env.agents.code-server),
+vendored here as a git submodule at `.code-server/` (the officially documented way to consume it —
+not a copy-paste drop-in). Splitting it out means any monorepo consuming the template pulls in
+template updates with a plain `git submodule update` (bump the pinned commit) instead of needing a
+rebase against upstream template history.
 
-Full design rationale — every decision made, the exact structure of `core/`/`stacks/`, the manifest
-format, and every build error hit and fixed along the way — is recorded in
-`.code-server/docs/OVERVIEW.md`. Treat that file as the authoritative, up-to-date spec; update it
-(not this summary) as new decisions are made. `docs/OVERVIEW.md` at the repo root is the short
-user-facing "how to use this template" version.
+This repo is not itself an application — there's no product code here, only the root-level
+scaffolding a consuming monorepo keeps outside the submodule: this `CLAUDE.md`, `README.md`,
+`docs/OVERVIEW.md`, and `.code-server.stack.json` (the per-project stack selection — see "Manifest"
+in `.code-server/docs/OVERVIEW.md` for why it can't live inside the submodule itself).
+
+Full design rationale for the template — every decision made, the exact structure of
+`core/`/`stacks/`, the manifest format, and every build error hit and fixed along the way — is
+recorded in `.code-server/docs/OVERVIEW.md`, inside the submodule (so it versions together with the
+template, not with this consuming repo). Treat that file as the authoritative, up-to-date spec for
+anything under `.code-server/`. `docs/OVERVIEW.md` at this repo's root is the short user-facing "how
+to use this template" version, and is what should be updated for anything specific to being a
+*consumer* of the template (as opposed to the template's own internals).
 
 ## Pair Programming Mode
 
@@ -29,8 +36,9 @@ user gives an explicit go-ahead for that scoped piece of work (e.g. "go ahead", 
 toolchain available locally to build/run something), say so plainly before writing and let the
 user decide how to handle it, rather than claiming untested code works.
 
-When this template is added to a new project (bootstrapping, via `git submodule add <this-repo>
-.code-server`), the agent must start by asking about the project's purpose — domain, goals, and
+When this template is added to a new project (bootstrapping, via `git submodule add
+https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the agent must start by
+asking about the project's purpose — domain, goals, and
 any constraints already known — before touching files. Update the base files (`README.md`,
 `CLAUDE.md`, `docs/OVERVIEW.md`, and any stack selection in `.code-server.stack.json` at the
 consuming repo's root) to reflect the answers, and propose/assemble an initial structure for the
@@ -65,8 +73,9 @@ Launch the environment:
 - **`.code-server/stacks/<name>/`** — one directory per selectable tech stack, each with a
   `Dockerfile.frag` (using a `{{VERSION}}` placeholder, substituted at compose time — version
   divergence within a stack is handled with a shell `if` inside the same fragment, not a separate
-  directory per version) and a `versions.json` listing valid versions. `java` is currently the only
-  stack, meant as the pattern to copy for new ones.
+  directory per version) and a `versions.json` listing valid versions. Current stacks: `java`,
+  `cpp`, `dotnet`, `python`, `golang`, `ruby`, `php`, `node` — `java` was the original, meant as the
+  pattern to copy for new ones.
 - **`.code-server/setup`** — bash script: reads `.code-server.stack.json` at the consuming repo's
   root (one level above `.code-server/` — the versioned manifest, the source of truth for stack
   selection; lives outside the submodule so it survives `git submodule` updates instead of being

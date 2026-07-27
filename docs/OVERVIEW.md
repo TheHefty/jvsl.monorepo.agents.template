@@ -1,15 +1,27 @@
 # Overview
 
 Dev environment template based on [code-server](https://github.com/coder/code-server), with the
-Claude Code CLI, `ai-jail`, and Docker-out-of-Docker already set up. Everything lives inside
-`.code-server/` (doesn't clutter the root of the monorepo that adopts this template) and is
-controlled by two executables: `setup` (chooses the tech stacks that go into the image) and
-`start` (brings up the environment in a native window).
+Claude Code CLI, `ai-jail`, and Docker-out-of-Docker already set up. The template itself lives in
+its own repo, [`jvsl.env.agents.code-server`](https://github.com/TheHefty/jvsl.env.agents.code-server),
+vendored here as a git submodule at `.code-server/` (doesn't clutter the root of the monorepo that
+adopts it) and controlled by two executables: `setup` (chooses the tech stacks that go into the
+image) and `start` (brings up the environment in a native window).
 
 The full design — decisions made, the structure of `core/`/`stacks/`, the manifest format, bugs
 already hit and fixed — is in
-[`.code-server/docs/OVERVIEW.md`](../.code-server/docs/OVERVIEW.md). This document is just the
-"how to use it" summary.
+[`.code-server/docs/OVERVIEW.md`](../.code-server/docs/OVERVIEW.md), inside the submodule (so it
+versions with the template, not with this consuming repo). This document is just the "how to use
+it" summary, and covers what's specific to being a *consumer* of the template.
+
+## Updating the template
+
+Bump `.code-server/` to a newer template commit with:
+```bash
+cd .code-server && git fetch && git checkout origin/main && cd ..
+git add .code-server && git commit -m "chore: bump .code-server template"
+```
+This is the whole point of the submodule split: pulling in template changes (new stacks, fixes)
+never requires rebasing this repo's own history against the template's.
 
 ## Starting the environment
 
