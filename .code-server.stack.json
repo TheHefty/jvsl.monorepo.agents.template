@@ -1,4 +1,5 @@
 {
   "java": "21",
-  "android": "34"
+  "android": "34",
+  "rust": "stable"
 }
