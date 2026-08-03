@@ -134,3 +134,17 @@ Launch the environment:
 - **Versioning** — the template is released with release-please from its own conventional commits;
   `v1.0.0` is the first tag. Prefer bumping `.code-server/` to a tag rather than a bare commit, and
   read the submodule's `CHANGELOG.md` when bumping across one.
+
+## Releases
+
+This repo is released the same way the template is: release-please
+(`.github/workflows/release-please.yml`) keeps a release PR open on `main` and cuts the tag when it
+is merged, with `version.txt` + `CHANGELOG.md` as the only versioned artifacts (`release-type:
+simple` — there is nothing here to publish). Commit messages are therefore load-bearing, not
+decoration: only `feat`/`fix` reach the changelog, and a release is proposed only when one of them
+lands.
+
+`bootstrap-sha` pins the changelog's starting point at `54628be`, the commit that vendored the
+template as a submodule. Everything before it describes `core/`/`stacks/` work that has since moved
+into the template's own repo, and letting release-please walk into it would produce a changelog
+about code this repo no longer contains.
