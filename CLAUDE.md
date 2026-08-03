@@ -139,7 +139,9 @@ Launch the environment:
   read the submodule's `CHANGELOG.md` when bumping across one. A bare commit is not just less
   tidy: if it came from a branch that is later squash-merged, the commit becomes unreachable and
   every fresh clone fails its `git submodule update`. The template's own `main` is protected and
-  requires `ci-green`, and its release PRs need one manual step — see "Versioning and releases" in
+  requires `ci-green`, and its release-please runs under a PAT (`RELEASE_PLEASE_TOKEN`) so that its
+  release PRs get a CI run at all — a token that expires, and whose expiry shows up as releases
+  quietly no longer being proposed. See "Versioning and releases" in
   `.code-server/docs/OVERVIEW.md`.
 
 ## Releases
