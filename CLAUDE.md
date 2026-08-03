@@ -61,10 +61,13 @@ cd .code-server/start && cargo build --release
 Requires Rust and the Tauri Linux prerequisites (webkit2gtk, etc. — exact packages per distro are
 in `.code-server/docs/OVERVIEW.md`). There is no test suite and no lint config in this repo. The
 template itself does have CI, inside the submodule (`.code-server/.github/workflows/ci.yml`):
-`bash -n` over the shell scripts, `cargo check` on `start/`, and a `docker build` per stack (each
-composed through `core/compose-dockerfile.sh`, so a stack's `requires.json` dependencies are built
-with it). Changes under `.code-server/` are therefore verifiable there, but nothing in this
-consuming repo runs it.
+`bash -n` over the shell scripts, `cargo check --release --locked` on `start/` (the `--locked` is
+what keeps a stale `Cargo.lock` from reaching you here as a dirty submodule), and a `docker build`
+per stack (each composed through `core/compose-dockerfile.sh`, so a stack's `requires.json`
+dependencies are built with it) — plus `ci-green`, a job that needs all of the others and is the
+single check the template's branch protection requires, since the per-stack jobs are a matrix built
+from `ls stacks` and their names change whenever a stack is added or removed. Changes under
+`.code-server/` are therefore verifiable there, but nothing in this consuming repo runs it.
 
 Launch the environment:
 ```bash
@@ -133,16 +136,26 @@ Launch the environment:
   reads.
 - **Versioning** — the template is released with release-please from its own conventional commits;
   `v1.0.0` is the first tag. Prefer bumping `.code-server/` to a tag rather than a bare commit, and
-  read the submodule's `CHANGELOG.md` when bumping across one.
+  read the submodule's `CHANGELOG.md` when bumping across one. A bare commit is not just less
+  tidy: if it came from a branch that is later squash-merged, the commit becomes unreachable and
+  every fresh clone fails its `git submodule update`. The template's own `main` is protected and
+  requires `ci-green`, and its release PRs need one manual step — see "Versioning and releases" in
+  `.code-server/docs/OVERVIEW.md`.
 
 ## Releases
 
 This repo is released the same way the template is: release-please
-(`.github/workflows/release-please.yml`) keeps a release PR open on `main` and cuts the tag when it
-is merged, with `version.txt` + `CHANGELOG.md` as the only versioned artifacts (`release-type:
+(`.github/workflows/release-please.yml`) keeps a release PR open on `master` and cuts the tag when
+it is merged, with `version.txt` + `CHANGELOG.md` as the only versioned artifacts (`release-type:
 simple` — there is nothing here to publish). Commit messages are therefore load-bearing, not
 decoration: only `feat`/`fix` reach the changelog, and a release is proposed only when one of them
 lands.
+
+`master` is protected, so **there is no direct push to it** — every change, including a submodule
+bump or a one-line doc fix, goes through a pull request. No approvals are required (single
+maintainer), but the rule applies to administrators too, and force-pushes and branch deletion are
+blocked. There are no required status checks, because this repo has no CI of its own: a PR here is
+mergeable as soon as it is open. Head branches are deleted automatically on merge.
 
 `bootstrap-sha` pins the changelog's starting point at `54628be`, the commit that vendored the
 template as a submodule. Everything before it describes `core/`/`stacks/` work that has since moved
