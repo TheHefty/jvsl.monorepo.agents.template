@@ -59,7 +59,12 @@ Build the native launcher (Rust/Tauri, only needed once, or after editing `.code
 cd .code-server/start && cargo build --release
 ```
 Requires Rust and the Tauri Linux prerequisites (webkit2gtk, etc. — exact packages per distro are
-in `.code-server/docs/OVERVIEW.md`). There is no test suite and no lint config in this repo.
+in `.code-server/docs/OVERVIEW.md`). There is no test suite and no lint config in this repo. The
+template itself does have CI, inside the submodule (`.code-server/.github/workflows/ci.yml`):
+`bash -n` over the shell scripts, `cargo check` on `start/`, and a `docker build` per stack (each
+composed through `core/compose-dockerfile.sh`, so a stack's `requires.json` dependencies are built
+with it). Changes under `.code-server/` are therefore verifiable there, but nothing in this
+consuming repo runs it.
 
 Launch the environment:
 ```bash
@@ -69,29 +74,63 @@ Launch the environment:
 ## Architecture
 
 - **`.code-server/core/Dockerfile.frag`** — the mandatory base layer (code-server, Node.js,
-  Claude Code CLI, `ai-jail`, the docker-socket gid fix in `core/cont-init/`). Never optional.
+  Claude Code CLI, `ai-jail`, the GitHub CLI, Rust/`rustup` + the Tauri Linux libs). Never optional.
+  Two parts of it are worth knowing before touching anything else: **Docker inside the container is
+  a nested *rootless* daemon**, run as the s6 service in `core/services/svc-dockerd-rootless/` —
+  the host's socket is deliberately not mounted, because mounting it made everything in the
+  container root-equivalent on the host and silently voided `ai-jail`'s sandbox (an agent shown a
+  read-only path can `docker exec -u 0` into its own container); and `CLAUDE_CONFIG_DIR=/config/.claude`
+  keeps the whole Claude Code CLI state in the bind-mounted directory rather than only its
+  credentials. `core/cont-init/` now holds a single boot hook, `20-kvm-gid.sh`, which aligns the
+  in-container `kvm` group with the host device's gid when `start` passed one.
 - **`.code-server/stacks/<name>/`** — one directory per selectable tech stack, each with a
   `Dockerfile.frag` (using a `{{VERSION}}` placeholder, substituted at compose time — version
   divergence within a stack is handled with a shell `if` inside the same fragment, not a separate
-  directory per version) and a `versions.json` listing valid versions. Current stacks: `java`,
-  `cpp`, `dotnet`, `python`, `golang`, `ruby`, `php`, `node` — `java` was the original, meant as the
-  pattern to copy for new ones.
+  directory per version), a `versions.json` listing valid versions, and optionally a
+  `requires.json` listing other stacks it can't build without and a `cont-init/` directory of
+  boot-time scripts the fragment `COPY`s into `/custom-cont-init.d/` (the same LinuxServer hook
+  `core/` uses — for anything that must hold on *every* boot rather than once at build time, which
+  for a stack usually means state under `/config`, a named volume Docker seeds from the image only
+  on first mount). Current stacks: `java`, `cpp`, `dotnet`, `python`, `golang`, `ruby`, `php`,
+  `node`, `rust`, `android` (the only one with a `requires.json`: `["java"]`, and so far the only
+  one with a `cont-init/`) — `java` was the original, meant as the pattern to copy for new ones.
 - **`.code-server/setup`** — bash script: reads `.code-server.stack.json` at the consuming repo's
   root (one level above `.code-server/` — the versioned manifest, the source of truth for stack
   selection; lives outside the submodule so it survives `git submodule` updates instead of being
   local, uncommittable state inside vendored code), shows a `whiptail` multi-select checklist
-  pre-populated from it, asks a version per selected stack, rewrites the manifest, concatenates
-  `core/Dockerfile.frag` + each selected stack's fragment into `.code-server/Dockerfile`
-  (gitignored — always regenerated, never hand-edited), and runs `docker build`. Removing a stack
-  is just excluding it from the manifest; there's no uninstall logic, the image is always rebuilt
-  from scratch.
+  pre-populated from it, refuses a selection that leaves a `requires.json` dependency unchecked,
+  asks a version per selected stack, rewrites the manifest, then exports it as `STACK_MANIFEST` and
+  calls `core/compose-dockerfile.sh` to generate `.code-server/Dockerfile` (gitignored — always
+  regenerated, never hand-edited), and runs `docker build`. Removing a stack is just excluding it
+  from the manifest; there's no uninstall logic, the image is always rebuilt from scratch.
+- **`.code-server/core/compose-dockerfile.sh`** — takes stack names and writes the Dockerfile to
+  stdout: `core/Dockerfile.frag` followed by each stack's fragment, `requires.json` dependencies
+  first, `{{VERSION}}` substituted. Versions come from the JSON file `$STACK_MANIFEST` points at
+  when it has an entry for the stack, and otherwise from the lowest version in that stack's
+  `versions.json` — which is exactly what lets `setup` (exports the manifest it just wrote) and CI
+  (exports nothing, gets the lowest listed version it already tests) share one composition path
+  instead of each concatenating fragments on its own.
 - **`.code-server/start/`** — a Tauri v2 Rust app with no JS frontend (`dist/index.html` is an
   unused placeholder; the window navigates straight to code-server's external URL). `src/main.rs`
   ensures the container is running (`docker start` if it already exists, otherwise a `docker run`
-  replicating the flags a plain `docker run` setup would need — workspace/`~/.claude`/docker-socket
-  mounts, `--network host`, `--cap-add=SYS_ADMIN`, etc.), polls the code-server URL until it
-  responds, then opens a native window there instead of a browser tab (deliberately, to avoid the
-  browser intercepting editor keyboard shortcuts like Ctrl+W/Ctrl+N). Image/container name and
-  `START_WORKSPACE_DIR` default-derive automatically (from the binary's own location, and from the
-  same basename convention `setup` uses for the image name), so it runs with no configuration as
-  long as it stays inside the repo structure it was built in.
+  replicating the flags a plain `docker run` setup would need — workspace and `~/.claude` mounts
+  plus the named `/config` volume, `PUID/PGID=1000`, `--cap-add=SYS_ADMIN`, `--memory=8g` with
+  `--memory-swap=10g` (i.e. 2g of swap), and `--cpuset-cpus` over half the host's cores so `nproc`
+  inside reflects the limit), reads back the host port Docker published for it, polls the
+  code-server URL until it responds, then opens a native window there instead of a browser tab
+  (deliberately, to avoid the browser intercepting editor keyboard shortcuts like Ctrl+W/Ctrl+N).
+  It deliberately does *not* use `--network host`: code-server is published as `-p
+  127.0.0.1:0:8443` (a free host port, loopback only) so several projects' containers can run at
+  once — see "Networking and port discovery" in `.code-server/docs/OVERVIEW.md`. Image/container
+  name, data volume name and `START_WORKSPACE_DIR` default-derive automatically (from the binary's
+  own location, and from the same basename convention `setup` uses for the image name), so it runs
+  with no configuration as long as it stays inside the repo structure it was built in. Three device
+  nodes are passed through *conditionally*, only when the host has them (`docker run --device` on a
+  missing path is a hard failure, not a no-op): `/dev/fuse` and `/dev/net/tun`, which the nested
+  rootless daemon needs for fuse-overlayfs and slirp4netns — without `/dev/fuse` the daemon stays
+  down instead of crash-looping, so `docker` inside simply isn't available — and `/dev/kvm`, which
+  the `android` stack's headless emulator needs, passed together with a `KVM_GID` the boot hook
+  reads.
+- **Versioning** — the template is released with release-please from its own conventional commits;
+  `v1.0.0` is the first tag. Prefer bumping `.code-server/` to a tag rather than a bare commit, and
+  read the submodule's `CHANGELOG.md` when bumping across one.

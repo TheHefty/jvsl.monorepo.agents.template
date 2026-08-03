@@ -2,8 +2,8 @@
 
 A reference monorepo that has already adopted the
 [code-server](https://github.com/coder/code-server)-based dev container template — code-server
-itself, the Claude Code CLI, `ai-jail`, Docker-out-of-Docker, and a selectable set of tech stacks,
-all set up.
+itself, the Claude Code CLI, `ai-jail`, the GitHub CLI, a nested rootless Docker daemon, and a
+selectable set of tech stacks, all set up.
 
 The template itself lives in its own repo,
 [`jvsl.env.agents.code-server`](https://github.com/TheHefty/jvsl.env.agents.code-server), vendored
