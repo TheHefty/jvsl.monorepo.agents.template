@@ -16,7 +16,8 @@ versions with the template, not with this consuming repo). This document is just
 it" summary, and covers what's specific to being a *consumer* of the template.
 [`RULES.md`](RULES.md) alongside it carries the ground rules a project built on this template is
 expected to follow, and why each one exists; [`RFC/`](RFC/) holds the decisions that were expensive
-enough to be worth writing down.
+enough to be worth writing down; [`ARCHITECTURE/OVERVIEW.md`](ARCHITECTURE/OVERVIEW.md) describes
+the system a project builds, as it stands today.
 
 ## Updating the template
 
