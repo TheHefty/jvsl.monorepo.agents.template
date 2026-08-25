@@ -92,6 +92,37 @@ What a change must cover, and when, is in "Pair Programming Mode" in
 [`../CLAUDE.md`](../CLAUDE.md) — that is a rule about how work is done rather than about what this
 repository contains, and stating it twice in full would let the two drift.
 
+## Observability
+
+Testing says it worked before it shipped. This is how anyone knows it works now, and how the
+person debugging it at three in the morning finds out why it stopped.
+
+- **A failure names its own cause.** This is the rule the rest hang off, and the one this template
+  was built around: every manual setup step it replaced failed in a way that said nothing — a
+  missing library surfacing forty seconds into a build as `cannot find -lwebkit2gtk-4.1`, a
+  missing `whiptail` surfacing as a script exiting on a blank screen. An error says what failed,
+  what was expected, and what to do about it. Anything less makes the next person reproduce the
+  diagnosis from scratch.
+- **Say why something is not running, instead of dying quietly or looping.** The template's
+  services park on `sleep infinity` after printing the reason rather than exiting, because s6
+  restarts what exits and a crash loop buries the cause under its own retries. A component that is
+  deliberately off should say so once, in words, where someone will see it.
+- **Log the decision and its inputs, not the control flow.** "Entering handler" is noise that
+  costs storage and hides signal; "refused: digest mismatch, expected X got Y" is the line that
+  ends an investigation. Write for the reader who arrives with a symptom and no context.
+- **Logs are a data store, and the rules above apply to them.** No secrets, no tokens, no personal
+  data written into them by accident — a redacted field in the UI that arrives whole in a log line
+  is still a disclosure. How long they are kept, and access records in particular, is decided at
+  initialization along with everything else in Security, not left to whatever the default was.
+- **Instrument the three failure scenarios.** The same three a change is required to name before
+  it is written: tests catch them before shipping, and this is what catches them afterwards. A
+  failure mode you predicted and cannot observe in production is one you will hear about from a
+  user instead of from the system.
+- **Nothing counts as observability if nobody reads it.** An alert that is always firing, a
+  dashboard nobody opens, a log stream with no retention and no search — each is worse than having
+  none, because it produces the belief of coverage. Before adding a signal, say who looks at it
+  and when.
+
 ## Development conventions
 
 ### Branches and review
