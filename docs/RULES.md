@@ -57,9 +57,19 @@ order.
 - **Watching it fail is the load-bearing step, and the one that gets skipped.** A test that has
   never failed has proven nothing: it may assert nothing, assert the wrong thing, or exercise code
   that was already there. Red first is what makes green mean something.
-- **A bug fix starts with the reproduction.** Write the test that fails for the reported reason,
-  in the terms of the report, before touching the fix. It is the only proof that what was fixed is
-  what was broken, and it is what stops the bug returning unannounced later.
+- **A bug fix starts with the reproduction, and no bug is fixed without one.** Write the test that
+  fails for the reported reason, in the terms of the report, before touching the fix. It is the
+  only proof that what was fixed is what was broken, and it is what stops the bug returning
+  unannounced later.
+- **Reproduce it at the level where it was found**, not at the level that is convenient to test.
+  A bug that showed up on a real path and gets covered by a unit test of the repaired function is
+  a bug still shipping: the unit passes with the arguments the test chose, while the caller keeps
+  passing the ones that broke it. If the report came from a whole flow, the test drives the whole
+  flow. If driving it is genuinely out of reach, the escape at the end of this list applies: say so
+  in the pull request, with the reason.
+- **Confirm the test fails without the fix.** Revert the change, watch it go red, put it back.
+  A regression test that passes against the unrepaired code is not a regression test; it is a line
+  of coverage that will hold green through the bug's return.
 - **The three failure scenarios are the first tests.** "Pair Programming Mode" in
   [`../CLAUDE.md`](../CLAUDE.md) requires naming the three worst ways a change fails before
   writing it; test-first is how those stop being a paragraph. Name them, write them as failing
