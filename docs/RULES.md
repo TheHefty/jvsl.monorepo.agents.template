@@ -221,6 +221,11 @@ person debugging it at three in the morning finds out why it stopped.
   reference in the same change, or leave the old path in place as a one-line pointer to the new
   index — never as a second copy of the content, because the copy nobody edits is the one someone
   reads.
+- **`CLAUDE.md` is exempt from the folder rule, not from the limit.** It is loaded by name, so
+  turning it into a directory does not shrink it — it makes the agent stop reading it, silently and
+  with nothing failing. When it approaches the limit it stays as the entry point and pulls its
+  parts in with `@path` imports, so the file that gets loaded is still `CLAUDE.md` and the sections
+  live beside it. A split that breaks the mechanism the file exists for is not a split.
 - **`CHANGELOG.md` is exempt.** It only grows, it is written by release-please rather than by a
   person, and blocking a release commit on it would teach everyone to reach for `--no-verify` —
   which turns off every other check at the same time.

@@ -154,6 +154,23 @@ Once it is settled, proceed under the chosen mode: update the base files (`READM
 `docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
 consuming repo's root) to reflect the answers, and assemble an initial structure from them.
 
+**Delete this section once the project is initialized.** It is scaffolding for a moment that
+happens once, and a checklist that stays after it is done gets re-run, argued with, or quietly
+ignored — and the third is the one that spreads to the sections around it.
+
+Two things have to be somewhere else first, because they are standing answers rather than one-time
+decisions and the rest of the file assumes them:
+
+- **The mode**, written as a fact — "work here is Navigator Mode" — where the mode sections can be
+  read against it. It governs every session, not just this one.
+- **The documentation language**, for the same reason: every file written from here on inherits it,
+  and a question that was deleted cannot be re-read.
+
+Everything else is already recorded in RFC `0001`, which is what makes deleting this safe: the
+answers outlive the questions. In the template repository itself this section stays — it is the
+copy that projects inherit, the same reason [`docs/RFC/`](docs/RFC/) and
+[`docs/SCENARIOS/`](docs/SCENARIOS/) carry no numbered files.
+
 ## What this repository is
 
 A reference monorepo that has already adopted the code-server dev-container template. The template
