@@ -2,12 +2,12 @@
 
 Dev environment template based on [code-server](https://github.com/coder/code-server), with the
 Claude Code CLI, `ai-jail`, `ai-memory`, the GitHub CLI, and a nested rootless Docker daemon
-already set up. The
-template itself lives in its own repo,
+already set up. The template itself lives in its own repo,
 [`jvsl.env.agents.code-server`](https://github.com/TheHefty/jvsl.env.agents.code-server),
 vendored here as a git submodule at `.code-server/` (doesn't clutter the root of the monorepo that
-adopts it) and controlled by two executables: `setup` (chooses the tech stacks that go into the
-image) and `start` (brings up the environment in a native window).
+adopts it) and driven by three executables: `init` (prepares the host, once per machine), `setup`
+(chooses the tech stacks that go into the image) and `dev` (builds the launcher if it is stale and
+opens the environment in a native window).
 
 The full design — decisions made, the structure of `core/`/`stacks/`, the manifest format, bugs
 already hit and fixed — is in
@@ -29,10 +29,22 @@ after a bump — the image is what actually carries the change, and it is never 
 
 ## Starting the environment
 
-Prerequisites on the host: `jq`, `whiptail`, `docker` (for `setup`); Rust/`cargo` + the Tauri libs
-for Linux (for `start` — see `.code-server/docs/OVERVIEW.md` for the exact packages per distro).
+1. **Prepare the host** (once per machine):
+   ```bash
+   .code-server/init
+   ```
+   It checks the display before anything else — on WSL that means WSLg, where "installed but not
+   running" is `wsl --shutdown` from Windows rather than a package — then checks every build and
+   runtime dependency and offers to install what is missing, naming each one per package manager.
+   `cargo` is the one exception it will not install: a distribution's Rust is routinely older than
+   the Tauri crates need, so it prints the `rustup` line and leaves the choice to you.
 
-1. **Build the image** (choose the monorepo's stacks, generate the Dockerfile, and build it):
+   Skipping `init` works, but each missing piece fails in a way that doesn't name itself: a missing
+   `libwebkit2gtk-4.1-dev` surfaces forty seconds into a build as `cannot find -lwebkit2gtk-4.1`,
+   a missing `whiptail` surfaces as `setup` exiting with a blank screen, and a WSL without the X
+   client libraries opens a window that is simply blank, with nothing logged.
+
+2. **Build the image** (choose the monorepo's stacks, generate the Dockerfile, and build it):
    ```bash
    .code-server/setup
    ```
@@ -40,21 +52,19 @@ for Linux (for `start` — see `.code-server/docs/OVERVIEW.md` for the exact pac
    (today only `android`, which needs `java`); `setup` refuses a selection that leaves the
    dependency unchecked rather than adding it silently, since its version is yours to choose.
 
-2. **Build the app that opens the environment** (only needs to be done once, or again if
-   `main.rs`/`Cargo.toml` changes):
+3. **Open the environment**:
    ```bash
-   cd .code-server/start
-   cargo build --release
+   .code-server/dev
    ```
+   `dev` builds the launcher whenever it is older than its own sources and then runs it, so there
+   is no separate `cargo build` step to remember and no stale binary to notice. On WSL it also
+   sets `WEBKIT_DISABLE_COMPOSITING_MODE=1` — WebKit's own switch for a disagreement with WSLg's
+   compositor that otherwise opens the window and leaves it blank.
 
-3. **Bring up the environment**:
-   ```bash
-   .code-server/start/target/release/start
-   ```
-   The first time it creates the container (`docker run`, with the workspace mounted); on
-   subsequent runs it just ensures the container is running (`docker start`) and opens the window.
-   No env var needs to be passed to run it from within the repo's own structure — image/container
-   name and `START_WORKSPACE_DIR` have an automatically derived default.
+   The first run creates the container (`docker run`, with the workspace mounted); after that it
+   just ensures the container is running (`docker start`) and opens the window. No env var needs
+   to be passed to run it from within the repo's own structure — image/container name and
+   `START_WORKSPACE_DIR` have an automatically derived default.
 
 What the host provides decides part of what you get inside, and `start` adapts instead of failing:
 `docker` in the container is a nested rootless daemon that needs `/dev/fuse` and `/dev/net/tun` —
