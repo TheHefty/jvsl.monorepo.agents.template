@@ -1,4 +1,5 @@
 {
-  "android": "35",
-  "java": "17"
+  "limits": {
+    "memory": "6g"
+  }
 }
