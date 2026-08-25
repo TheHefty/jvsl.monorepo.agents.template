@@ -12,6 +12,13 @@ One is written unconditionally at project initialization: the purpose interview 
 `0001`, and everything after is built on it. See "Project Initialization" in
 [`../../CLAUDE.md`](../../CLAUDE.md).
 
+**This repository is the template, not a project built on it**, so this folder carries the
+scaffold and nothing else. An empty `RFC/` here is the correct state — the numbered files start
+in the repositories that adopt the template. Don't backfill this one with the decisions behind
+the template itself; those live in
+[`.code-server/docs/OVERVIEW.md`](../../.code-server/docs/OVERVIEW.md), which versions with the
+template rather than with a consumer of it.
+
 Otherwise, write an RFC before a change that:
 
 - **alters a contract other things depend on** — the stack manifest's shape, the launcher's
