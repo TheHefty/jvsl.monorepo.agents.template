@@ -180,13 +180,19 @@ the script under test, driving the real script rather than a copy of its logic, 
 so a test written there runs nowhere — a reason to make the change in the template, not a reason to
 skip the test.
 
-Stop and consult in three cases:
+Stop and consult in four cases:
 
 - **A real technical blocker** — no toolchain to build or run something, a credential the agent
   cannot reach, a host capability that is absent. Say so plainly and early, and never present
   untested code as verified.
 - **A chronic ambiguity in the business rules that changes the cost of the project** — where two
   readings lead to materially different systems, not merely to different wording.
+- **A gate in a defined pipeline** — the RFC agreed with the user before any scenario is written,
+  the Gherkin scenarios agreed before any code is. See "Releases have a theme" in
+  [`docs/RULES.md`](docs/RULES.md). Waiting at a handoff someone designed on purpose is not the
+  same as stopping to ask about the obvious: one is the process working, the other is the round
+  trip this mode exists to remove. An agent that skips these citing the rule above has read it
+  backwards.
 - **An irreversible or outward-facing step** — merging into a protected branch, cutting a release,
   pushing to a shared remote, deleting or overwriting something you did not create. This is the
   half of pairing that the rule above does not dissolve: those stay with the user, because the

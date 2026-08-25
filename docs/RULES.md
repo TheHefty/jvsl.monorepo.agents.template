@@ -70,6 +70,18 @@ order.
 - **Confirm the test fails without the fix.** Revert the change, watch it go red, put it back.
   A regression test that passes against the unrepaired code is not a regression test; it is a line
   of coverage that will hold green through the bug's return.
+- **Acceptance criteria are Gherkin scenarios, and they are the outer red.** Each RFC carries its
+  `.feature` files: `Given`/`When`/`Then`, in the language the documentation uses, describing
+  behaviour a person cares about rather than functions a programmer wrote. They are agreed with the
+  user before implementation starts, and the work is done when they pass. The image ships a Gherkin
+  extension for exactly this reason — feature files are how acceptance criteria get written and
+  reviewed, whatever the project is built in.
+- **These are not the three failure scenarios, and the two do not substitute for each other.**
+  Acceptance scenarios say what the change must do; failure scenarios say how it breaks. An RFC
+  needs both, and a `.feature` file full of failure modes is neither.
+- **Say which runner executes them.** A `.feature` nothing runs is acceptance criteria — useful,
+  reviewable, and not a test. That is a fine thing to have as long as it is called that; what
+  rots is a scenario file believed to be enforcing something while no runner has ever loaded it.
 - **The three failure scenarios are the first tests.** "Pair Programming Mode" in
   [`../CLAUDE.md`](../CLAUDE.md) requires naming the three worst ways a change fails before
   writing it; test-first is how those stop being a paragraph. Name them, write them as failing
@@ -153,6 +165,23 @@ person debugging it at three in the morning finds out why it stopped.
   happens.
 - **Write the commit message for the person who will read it during an incident**, not for the
   diff. The diff already says what changed; the message is where why belongs.
+
+### Releases have a theme
+
+- **A release is about something, and the something is one sentence.** "Whatever landed since the
+  last tag" is a changelog, not a release: nobody can say what it was for, whether it is finished,
+  or what would have made it wait.
+- **If the sentence needs an "and", the theme is two themes.** Same if it would not land in a
+  single release. Split it — the point of a theme is that it can be finished, and a theme that
+  cannot be finished is a backlog with a name.
+- **One RFC per theme**, and the theme is what the RFC is about. This is what stops an RFC from
+  being written for a change nobody could describe, and a release from being assembled out of
+  changes nobody agreed on.
+- **The order is theme, RFC, scenarios, code, and it has two gates.** The RFC is agreed with the
+  user before any scenario is written; the scenarios are agreed with the user before any code is.
+  Both gates are cheap and both are load-bearing: an RFC settled after the code exists is a
+  justification, and scenarios written after the implementation describe what was built rather
+  than what was wanted.
 
 ### The template submodule
 
