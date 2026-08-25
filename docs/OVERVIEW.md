@@ -1,7 +1,8 @@
 # Overview
 
 Dev environment template based on [code-server](https://github.com/coder/code-server), with the
-Claude Code CLI, `ai-jail`, the GitHub CLI, and a nested rootless Docker daemon already set up. The
+Claude Code CLI, `ai-jail`, `ai-memory`, the GitHub CLI, and a nested rootless Docker daemon
+already set up. The
 template itself lives in its own repo,
 [`jvsl.env.agents.code-server`](https://github.com/TheHefty/jvsl.env.agents.code-server),
 vendored here as a git submodule at `.code-server/` (doesn't clutter the root of the monorepo that
@@ -61,3 +62,30 @@ without `/dev/fuse` the daemon stays down and `docker` simply isn't available �
 stack's headless emulator needs `/dev/kvm`, which exists on Linux hosts with VT-x/AMD-V but has no
 equivalent under Docker Desktop's macOS/Windows VM. The container is also capped at 8g of memory
 (plus 2g of swap) and pinned to half the host's cores.
+
+## Long-term memory (`ai-memory`)
+
+[`ai-memory`](https://github.com/akitaonrails/ai-memory) gives the agent memory that outlives a
+session: quit mid-task, come back tomorrow (or in a different agent CLI), and the next session opens
+with a handoff instead of a blank slate. The memory itself is plain markdown in a git repo —
+`grep`-able and readable without any of this — kept on the container's persistent volume at
+`/config/ai-memory`, not in your repository.
+
+**It is off until you ask for it, per project.** The switch is a marker file at the repo root:
+
+```bash
+printf '[project]\nproject_strategy = "repo-root"\n' > .ai-memory.toml
+```
+
+Then restart the container — the marker is read at boot. `ai-memory status` shows the paths and
+counts once it is up.
+
+Without that file nothing runs and nothing is recorded: the server never starts listening, the
+installed hooks are in allowlist mode and emit no event at all, and the agent's sandbox is not
+widened to reach the store. Forgetting the marker costs you recall, never confidentiality.
+
+Two things worth knowing before you turn it on. **Memory is per project**, because the server runs
+inside this project's container — a second project gets its own, and they never see each other.
+And **no LLM provider is configured**, so nothing captured leaves the machine: you get full-text,
+entity and graph-neighbour search plus rule-based summaries. Adding a provider buys consolidated
+pages and contradiction linting, and costs sending captured prompts and tool excerpts to it.
