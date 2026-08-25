@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Initialization
 
-Five questions are settled before anything is built, and none of them can be answered from an
+Six questions are settled before anything is built, and none of them can be answered from an
 empty repository. The first file written is the record of the answers.
 
 **Which mode we are working in.** Ask, and let the user answer:
@@ -94,6 +94,28 @@ number quoted in a document like this one; that is the part that changes.
 Whatever the answer, it goes in RFC `0001` as a data map — what personal data exists, why, where
 it lives, how long it stays — and the standing rules go in `docs/RULES.md`. Policy and terms are
 project files, written in the documentation language chosen above.
+
+**Which licence the project is under.** Ask, and apply the answer immediately rather than leaving
+it for later — `LICENSE` at the root, the licence field of whatever manifest the project has
+(`package.json`, `Cargo.toml`, `pyproject.toml`), and the line in `README.md` that names it. All
+three, or the machine-readable one contradicts the file and downstream tooling reports whatever it
+finds first.
+
+Three things make this cheap now and expensive afterwards.
+
+- **A repository with no `LICENSE` is not permissive by default, it is closed.** Absent a licence,
+  default copyright applies: nobody may use, copy or modify it. Publishing code that way is
+  publishing something nobody is allowed to use, which is rarely what was intended. "All rights
+  reserved" is a legitimate answer — record it as one, so it reads as a decision.
+- **A licence arrives inherited, and inheriting is a choice.** The template ships `LICENSE` (MIT)
+  and a project adopting it starts with that file in place. Confirm it or replace it; a licence
+  nobody chose is a licence someone else chose.
+- **Relicensing later needs the agreement of everyone who contributed** under the old terms. While
+  the project is one person and one commit, changing it costs nothing.
+
+Check what the dependencies permit before promising a licence — a copyleft dependency constrains
+what the project can be distributed under, and finding that out after release is finding it out
+from someone else.
 
 **This is scaffolding, not legal advice.** The job is to make the decisions explicit and recorded
 so that someone qualified has something to review. Never present generated policy text as
