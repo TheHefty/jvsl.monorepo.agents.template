@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Initialization
 
-Three questions are settled before anything is built, and none of them can be answered from an
+Five questions are settled before anything is built, and none of them can be answered from an
 empty repository. The first file written is the record of the answers.
 
 **Which mode we are working in.** Ask, and let the user answer:
@@ -53,6 +53,42 @@ the marker is read at boot, by the service and by the hook that registers with t
 create nothing — absence is the switch, and it can be turned on later without redoing anything.
 Either way the answer belongs in RFC `0001`, since it decides whether this project accumulates a
 record of how it was built.
+
+**Which language the documentation is written in.** Ask, and apply the answer to all of it —
+`README.md`, `CLAUDE.md`, `docs/`, the RFCs, and commit messages if the user wants it there too.
+The failure mode is not the wrong choice, it is the mixture: half the docs in English and half in
+Portuguese, with no rule saying which is which, so every new file re-opens the question and nobody
+can grep. The files inherited from the template arrive in English; translating them is part of the
+answer, not a separate errand. Conversation language is a different thing and does not need
+settling here — the user sets it by speaking.
+
+**Whether the project is public.** Public meaning reachable by people outside the team: a site, an
+API, an app, a repository open to outside contributions. This decides what the project has to be
+built on top of, and retrofitting it is the expensive path.
+
+- **LGPD (Lei 13.709/2018)** applies whenever personal data is processed, and *private is not
+  exempt* — an internal system holding employee or customer data is squarely in scope. Settle at
+  initialization: whether any personal data is touched at all, which of it is sensitive, the
+  purpose and legal basis for each use, how long it is kept, how subject requests are answered,
+  and who the controller is. **If nothing personal is processed, record that** — it is the answer
+  that saves the most work later, and the one nobody writes down.
+- **Marco Civil da Internet (Lei 12.965/2014)** applies to serving an application over the
+  internet: terms of use and a privacy policy that are actually reachable, obligations around
+  keeping access records, and disclosure only under judicial order. Confirm current retention
+  periods against the law rather than trusting a number quoted in a document like this one; that
+  is the part that changes.
+
+If the project is private, ask whether it wants privacy rules anyway rather than assuming it does
+not. If yes, same treatment. If no, record the decision **and its reason**, so the next person can
+tell it was decided rather than overlooked.
+
+Whatever the answer, it goes in RFC `0001` as a data map — what personal data exists, why, where
+it lives, how long it stays — and the standing rules go in `docs/RULES.md`. Policy and terms are
+project files, written in the documentation language chosen above.
+
+**This is scaffolding, not legal advice.** The job is to make the decisions explicit and recorded
+so that someone qualified has something to review. Never present generated policy text as
+compliant, and say plainly that it has not been reviewed.
 
 Once it is settled, proceed under the chosen mode: update the base files (`README.md`, `CLAUDE.md`,
 `docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
