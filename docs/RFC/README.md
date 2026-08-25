@@ -46,17 +46,30 @@ commit message is enough.
 1. **Start from a theme.** A release is about one thing, said in one sentence; if the sentence
    needs an "and", it is two themes and it gets two RFCs. See "Releases have a theme" in
    [`../RULES.md`](../RULES.md).
-2. Copy [`0000-template.md`](0000-template.md) to `NNNN-short-kebab-title.md`, where `NNNN` is the
-   next free number. Numbers are never reused, including by a rejected RFC.
-3. Open it as a pull request, like everything else here. The discussion belongs in the PR, where
+2. **Get to the content by interview, not by drafting.** Invoke the `mattpocock-skills:grilling`
+   skill and let it drive: it works the open decisions as a tree and asks a whole round at a time,
+   numbering each question and attaching its recommended answer. That last part is what keeps it
+   compatible with the autonomy rule in [`../../CLAUDE.md`](../../CLAUDE.md) — the obvious ones are
+   accepted in a word rather than composed, so the interview sharpens the decision instead of
+   becoming an interrogation. The user's own entry points into the same thing are `/grill-me` and
+   `/grill-with-docs`. If the plugin is not installed, run it yourself in that shape rather than
+   skipping it: rounds of numbered questions, each carrying your recommendation.
+
+   It scales with the decision. A change with two open questions gets a round of two; the interview
+   is the method, not a length.
+3. Copy [`0000-template.md`](0000-template.md) to `NNNN-short-kebab-title.md`, where `NNNN` is the
+   next free number. Numbers are never reused, including by a rejected RFC. Write up the decisions
+   and their reasons — not a transcript, because an interview pasted into a file is a document
+   nobody reads twice.
+4. Open it as a pull request, like everything else here. The discussion belongs in the PR, where
    it is attached to the diff.
-4. **Agree the RFC with the user before writing a single scenario.** This is a gate, not a
+5. **Agree the RFC with the user before writing a single scenario.** This is a gate, not a
    formality: an RFC settled after the scenarios exist is a justification for them.
-5. **Write the acceptance scenarios in Gherkin, and agree those too before any code.** They go in
+6. **Write the acceptance scenarios in Gherkin, and agree those too before any code.** They go in
    [`../SCENARIOS/`](../SCENARIOS/) under this RFC's number, in the same pull request as the RFC.
    Scenarios written after an implementation describe what was built, not what was wanted, and
    nobody can tell the difference by reading them.
-6. Merge with the status set to what was actually decided. **A rejected RFC is merged too**: the
+7. Merge with the status set to what was actually decided. **A rejected RFC is merged too**: the
    argument against is the part that stops the idea coming back every six months.
 
 The two gates are the point of the sequence, and they survive the autonomy rule in
