@@ -105,9 +105,21 @@ repository contains, and stating it twice would let the two drift.
 - **A Markdown file stays under 50 KiB.** Past that it stops being read and starts being skimmed,
   which is worse than being short: it still looks authoritative. A diff that size is not reviewed
   either, it is approved.
-- **When a file reaches the limit, split it and link** — do not compress the prose until it fits.
-  The length was the signal; deleting the explanations that made it long throws away the part
-  worth keeping.
+- **When a file reaches the limit, split it into a folder** named for its subject, one file per
+  top-level section, with a `README.md` inside that indexes them — GitHub and most viewers open a
+  folder at its `README.md`, so the index is what a reader lands on. `docs/RULES.md` at 50 KiB
+  would become `docs/rules/` holding `security.md`, `testing.md` and the rest.
+- **Split on the section boundaries, not on the byte count.** A file cut where it happened to
+  reach 50 KiB leaves half an argument in each piece, and the reader has to reassemble what the
+  author already had whole.
+- **Do not compress the prose until it fits.** The length was the signal; deleting the
+  explanations that made it long throws away the part worth keeping and leaves rules with no
+  reasons, which is how a rule outlives its reason.
+- **A split is only done when the inbound links are updated with it.** A Markdown link to a moved
+  file does not fail, it just goes nowhere, and nothing here checks them. Either fix every
+  reference in the same change, or leave the old path in place as a one-line pointer to the new
+  index — never as a second copy of the content, because the copy nobody edits is the one someone
+  reads.
 - **`CHANGELOG.md` is exempt.** It only grows, it is written by release-please rather than by a
   person, and blocking a release commit on it would teach everyone to reach for `--no-verify` —
   which turns off every other check at the same time.
