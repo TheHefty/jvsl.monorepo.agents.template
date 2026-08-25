@@ -48,6 +48,32 @@ stops applying.
 
 ## Testing
 
+### Test-first
+
+**TDD is the default on every project.** Write the failing test, watch it fail, make it pass,
+refactor. Not tests written alongside, and not tests written after and committed in a convincing
+order.
+
+- **Watching it fail is the load-bearing step, and the one that gets skipped.** A test that has
+  never failed has proven nothing: it may assert nothing, assert the wrong thing, or exercise code
+  that was already there. Red first is what makes green mean something.
+- **A bug fix starts with the reproduction.** Write the test that fails for the reported reason,
+  in the terms of the report, before touching the fix. It is the only proof that what was fixed is
+  what was broken, and it is what stops the bug returning unannounced later.
+- **The three failure scenarios are the first tests.** "Pair Programming Mode" in
+  [`../CLAUDE.md`](../CLAUDE.md) requires naming the three worst ways a change fails before
+  writing it; test-first is how those stop being a paragraph. Name them, write them as failing
+  tests, then build the thing that turns them green.
+- **A spike is allowed, and it is thrown away.** Exploring to answer a design question does not
+  need tests — it needs to not survive. What ships is written test-first from the beginning; the
+  spike is not laundered into it by adding tests afterwards.
+- **If something genuinely cannot be written test-first, say so in the pull request** and say why.
+  Some things only fail against a real host, and shell glue is sometimes cheaper to verify by
+  running it. That is an answer. Silence is not, and neither is a test that was written last and
+  arranged to look first.
+
+### What runs, and where
+
 Nothing in a consuming repo runs a test for you. What discipline exists has to be carried by
 whoever opens the change.
 
@@ -62,9 +88,9 @@ whoever opens the change.
 - **A local hook is not CI.** It is opt-in per clone and skippable with `--no-verify`, so treat it
   as a reminder for the author, never as a gate the repository enforces.
 
-When a test is required, and what it has to cover, is in "Pair Programming Mode" in
-[`../CLAUDE.md`](../CLAUDE.md) — it is a rule about how work is done, not about what this
-repository contains, and stating it twice would let the two drift.
+What a change must cover, and when, is in "Pair Programming Mode" in
+[`../CLAUDE.md`](../CLAUDE.md) — that is a rule about how work is done rather than about what this
+repository contains, and stating it twice in full would let the two drift.
 
 ## Development conventions
 
