@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Cheap repository-wide checks, run before a commit is written.
+#
+# Enable it per clone:
+#     git config core.hooksPath .githooks
+#
+# It cannot be enabled for you by a commit — git config is not versioned, which
+# is deliberate on git's part: a repository you clone should not be able to run
+# code on your machine by shipping a hook. Same arrangement as the template's
+# own .githooks/pre-push.
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+exec "$HERE/../scripts/check-md-size.sh"
