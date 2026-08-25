@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.1.0...v1.2.0) (2026-08-25)
+
+
+### Features
+
+* theme, RFC, scenarios, code — with a gate at each handoff ([0f7c5fe](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/0f7c5fe4dd42208f8b400f393bfc1c249290f87b))
+* theme, RFC, scenarios, code — with a gate at each handoff ([e1c537f](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/e1c537f7f8ca23edff80a26f3cb52b62b68bcd21))
+
 ## [1.1.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.0.0...v1.1.0) (2026-08-25)
 
 
