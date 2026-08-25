@@ -8,7 +8,11 @@ after the code moves on. It is not a description of the current system: that is
 
 ## When you need one
 
-Write an RFC before a change that:
+One is written unconditionally at project initialization: the purpose interview becomes RFC
+`0001`, and everything after is built on it. See "Project Initialization" in
+[`../../CLAUDE.md`](../../CLAUDE.md).
+
+Otherwise, write an RFC before a change that:
 
 - **alters a contract other things depend on** — the stack manifest's shape, the launcher's
   interface, anything a consuming repo builds on;
