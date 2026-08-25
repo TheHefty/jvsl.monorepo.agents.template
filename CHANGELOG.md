@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.2.0...v1.3.0) (2026-08-25)
+
+
+### Miscellaneous Chores
+
+* cut 1.3.0 ([d7c56d8](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/d7c56d89271254c0a9a03c59274087c0e8bba076))
+
 ## [1.2.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.1.0...v1.2.0) (2026-08-25)
 
 
