@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Initialization
 
-Two things are settled before any file is touched, and neither can be inferred from an empty
-repository.
+Two questions are settled before anything is built, and neither can be answered from an empty
+repository. The first file written is the record of the answers.
 
 **Which mode we are working in.** Ask, and let the user answer:
 
@@ -21,10 +21,27 @@ sentence, not a negotiation.
 **What the project is for.** When the template is added to a project (`git submodule add
 https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the domain, the goals
 and any constraints already known are not visible in the repository, and guessing them wrong
-misdirects everything built on top. Ask before touching files. Once settled, proceed under the
-chosen mode: update the base files (`README.md`, `CLAUDE.md`, `docs/OVERVIEW.md`, `docs/RULES.md`,
-and the stack selection in `.code-server.stack.json` at the consuming repo's root) to reflect the
-answers, and assemble an initial structure from them.
+misdirects everything built on top.
+
+Do not improvise that interview. Invoke the `mattpocock-skills:grilling` skill and let it drive:
+it works the open decisions as a tree and asks a whole round at a time, numbering each question
+and attaching a recommended answer to it. That last part is what keeps it compatible with the rule
+below — the obvious ones are accepted in a word rather than composed. The user's own entry points
+into the same interview are `/grill-me` and `/grill-with-docs`. If the plugin is not installed,
+run the interview yourself in that shape rather than skipping it: rounds of numbered questions,
+each carrying your recommendation, and no project file touched until it ends.
+
+**Then write the result up as the project's first RFC**, `docs/RFC/0001-*.md`, from
+[`docs/RFC/0000-template.md`](docs/RFC/0000-template.md). What belongs in it is the decisions and
+their reasons — purpose, the constraints that turned out to be real, what was considered and
+dropped, and the three worst failure scenarios for the shape being chosen. Not a transcript: an
+interview pasted into a file is a document nobody reads twice. Merge it `Accepted`. Everything
+after is built on it, and it is the only place a later reader finds out why the project is shaped
+this way.
+
+Once it is settled, proceed under the chosen mode: update the base files (`README.md`, `CLAUDE.md`,
+`docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
+consuming repo's root) to reflect the answers, and assemble an initial structure from them.
 
 ## What this repository is
 
