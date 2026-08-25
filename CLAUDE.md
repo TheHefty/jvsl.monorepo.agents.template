@@ -23,19 +23,11 @@ https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the 
 and any constraints already known are not visible in the repository, and guessing them wrong
 misdirects everything built on top.
 
-Do not improvise that interview. Invoke the `mattpocock-skills:grilling` skill and let it drive:
-it works the open decisions as a tree and asks a whole round at a time, numbering each question
-and attaching a recommended answer to it. That last part is what keeps it compatible with the rule
-below — the obvious ones are accepted in a word rather than composed. The user's own entry points
-into the same interview are `/grill-me` and `/grill-with-docs`. If the plugin is not installed,
-run the interview yourself in that shape rather than skipping it: rounds of numbered questions,
-each carrying your recommendation, and no project file touched until it ends.
+Do not improvise that interview, and do not invent a procedure for it: every RFC in this project
+is produced by the same interview, and [`docs/RFC/README.md`](docs/RFC/README.md) describes it.
+This one is simply the first. Touch no project file until it ends.
 
-**Then write the result up as the project's first RFC**, `docs/RFC/0001-*.md`, from
-[`docs/RFC/0000-template.md`](docs/RFC/0000-template.md). What belongs in it is the decisions and
-their reasons — purpose, the constraints that turned out to be real, what was considered and
-dropped, and the three worst failure scenarios for the shape being chosen. Not a transcript: an
-interview pasted into a file is a document nobody reads twice. Merge it `Accepted`. Everything
+**The result is the project's first RFC**, `docs/RFC/0001-*.md`, merged `Accepted`. Everything
 after is built on it, and it is the only place a later reader finds out why the project is shaped
 this way.
 
