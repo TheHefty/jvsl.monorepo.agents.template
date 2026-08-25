@@ -15,7 +15,8 @@ already hit and fixed — is in
 versions with the template, not with this consuming repo). This document is just the "how to use
 it" summary, and covers what's specific to being a *consumer* of the template.
 [`RULES.md`](RULES.md) alongside it carries the ground rules a project built on this template is
-expected to follow, and why each one exists.
+expected to follow, and why each one exists; [`RFC/`](RFC/) holds the decisions that were expensive
+enough to be worth writing down.
 
 ## Updating the template
 
