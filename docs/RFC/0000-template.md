@@ -28,11 +28,12 @@ thing — where the code goes, what it touches, what the interface is. Not a dif
 
 ## Acceptance scenarios
 
-The Gherkin that says what this must do, linked or inlined. Agreed with the user before any code
-is written — that agreement is what makes them acceptance criteria rather than a description of
-whatever got built.
+Link the `.feature` file in [`../SCENARIOS/`](../SCENARIOS/) that carries this RFC's number.
+Agreed with the user before any code is written — that agreement is what makes them acceptance
+criteria rather than a description of whatever got built.
 
-Name the runner that executes them, or say plainly that nothing does and they are criteria only.
+They are documentation, not tests. What holds the code to them is the test suite, written
+test-first from these scenarios.
 
 ## Three worst failure scenarios
 

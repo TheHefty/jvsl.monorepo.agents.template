@@ -52,9 +52,10 @@ commit message is enough.
    it is attached to the diff.
 4. **Agree the RFC with the user before writing a single scenario.** This is a gate, not a
    formality: an RFC settled after the scenarios exist is a justification for them.
-5. **Write the acceptance scenarios in Gherkin, and agree those too before any code.** They live
-   with the RFC in the same pull request. Scenarios written after an implementation describe what
-   was built, not what was wanted, and nobody can tell the difference by reading them.
+5. **Write the acceptance scenarios in Gherkin, and agree those too before any code.** They go in
+   [`../SCENARIOS/`](../SCENARIOS/) under this RFC's number, in the same pull request as the RFC.
+   Scenarios written after an implementation describe what was built, not what was wanted, and
+   nobody can tell the difference by reading them.
 6. Merge with the status set to what was actually decided. **A rejected RFC is merged too**: the
    argument against is the part that stops the idea coming back every six months.
 

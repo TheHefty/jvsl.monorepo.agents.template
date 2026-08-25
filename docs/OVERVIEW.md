@@ -17,7 +17,8 @@ it" summary, and covers what's specific to being a *consumer* of the template.
 [`RULES.md`](RULES.md) alongside it carries the ground rules a project built on this template is
 expected to follow, and why each one exists; [`RFC/`](RFC/) holds the decisions that were expensive
 enough to be worth writing down; [`ARCHITECTURE/OVERVIEW.md`](ARCHITECTURE/OVERVIEW.md) describes
-the system a project builds, as it stands today.
+the system a project builds, as it stands today; [`SCENARIOS/`](SCENARIOS/) holds its acceptance
+criteria in Gherkin.
 
 ## Updating the template
 

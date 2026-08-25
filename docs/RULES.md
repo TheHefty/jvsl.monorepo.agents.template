@@ -70,18 +70,23 @@ order.
 - **Confirm the test fails without the fix.** Revert the change, watch it go red, put it back.
   A regression test that passes against the unrepaired code is not a regression test; it is a line
   of coverage that will hold green through the bug's return.
-- **Acceptance criteria are Gherkin scenarios, and they are the outer red.** Each RFC carries its
-  `.feature` files: `Given`/`When`/`Then`, in the language the documentation uses, describing
-  behaviour a person cares about rather than functions a programmer wrote. They are agreed with the
-  user before implementation starts, and the work is done when they pass. The image ships a Gherkin
-  extension for exactly this reason — feature files are how acceptance criteria get written and
-  reviewed, whatever the project is built in.
+- **Acceptance criteria are Gherkin scenarios, and they are documentation.** `Given`/`When`/`Then`,
+  in the language the documentation uses, describing behaviour a person cares about rather than
+  functions a programmer wrote. They live in [`SCENARIOS/`](SCENARIOS/), named for the RFC they
+  belong to, and they are agreed with the user before implementation starts. The image ships a
+  Gherkin extension for exactly this reason — feature files are how acceptance criteria get written
+  and reviewed, whatever the project is built in.
+- **Nothing executes them, and that is the design.** They state what the change must do; the
+  tests that hold it to that are written test-first from them, in the project's own test
+  suite. Treating a `.feature` as though CI enforced it is how a project ships on a belief nobody
+  ever checked — if you want it executable, that is a runner someone has to choose, wire up and
+  say so about.
 - **These are not the three failure scenarios, and the two do not substitute for each other.**
   Acceptance scenarios say what the change must do; failure scenarios say how it breaks. An RFC
   needs both, and a `.feature` file full of failure modes is neither.
-- **Say which runner executes them.** A `.feature` nothing runs is acceptance criteria — useful,
-  reviewable, and not a test. That is a fine thing to have as long as it is called that; what
-  rots is a scenario file believed to be enforcing something while no runner has ever loaded it.
+- **A scenario and its RFC change together.** They carry the same number and they are edited in
+  the same pull request. Two documents describing one behaviour, updated separately, become two
+  behaviours — and the reader has no way to tell which one the code implements.
 - **The three failure scenarios are the first tests.** "Pair Programming Mode" in
   [`../CLAUDE.md`](../CLAUDE.md) requires naming the three worst ways a change fails before
   writing it; test-first is how those stop being a paragraph. Name them, write them as failing
