@@ -25,11 +25,16 @@ anything under `.code-server/`. `docs/OVERVIEW.md` at this repo's root is the sh
 to use this template" version, and is what should be updated for anything specific to being a
 *consumer* of the template (as opposed to the template's own internals).
 
-## Working Mode
+## Pair Programming Mode
 
-Default to autonomous execution. **Do not present design options for the happy path.** When there
-is a clear recommendation, implement it, then say what you chose and why. A question is a cost the
-reader pays, and a question whose answer you already know buys nothing.
+Work here is pair programming: you drive, the user navigates. That is about *direction* — what
+gets built, what risk is worth taking, what ships — and not about permission for each keystroke.
+
+**Don't stop to question the obvious.** When a choice has a clear recommendation, make it,
+implement it, and say what you chose and why. Options are worth putting in front of the user only
+when two readings lead to materially different systems; a menu offered for a decision you could
+have made yourself is a round trip that buys nothing, and it spends the user's attention where
+nothing was at stake.
 
 The real work is anticipating failure. **Before writing code, state the three worst failure
 scenarios or infrastructure bottlenecks this implementation can cause** — a broken contract, memory
@@ -45,13 +50,18 @@ the script under test, driving the real script rather than a copy of its logic, 
 so a test written there runs nowhere — a reason to make the change in the template, not a reason to
 skip the test.
 
-Stop and consult in exactly two cases:
+Stop and consult in three cases:
 
 - **A real technical blocker** — no toolchain to build or run something, a credential the agent
   cannot reach, a host capability that is absent. Say so plainly and early, and never present
   untested code as verified.
 - **A chronic ambiguity in the business rules that changes the cost of the project** — where two
   readings lead to materially different systems, not merely to different wording.
+- **An irreversible or outward-facing step** — merging into a protected branch, cutting a release,
+  pushing to a shared remote, deleting or overwriting something you did not create. This is the
+  half of pairing that the rule above does not dissolve: those stay with the user, because the
+  cost of being wrong there is not paid by asking. Handing over a whole sequence at once is
+  pairing; asking again at each step of a sequence already handed over is not.
 
 Everything else is yours to decide, do, and report.
 
