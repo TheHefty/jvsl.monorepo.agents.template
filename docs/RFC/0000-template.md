@@ -26,7 +26,18 @@ Say who pays for it today: the consuming project, the agent, whoever operates th
 What to do. Enough detail that someone else could implement it and arrive at roughly the same
 thing — where the code goes, what it touches, what the interface is. Not a diff.
 
+## Acceptance scenarios
+
+The Gherkin that says what this must do, linked or inlined. Agreed with the user before any code
+is written — that agreement is what makes them acceptance criteria rather than a description of
+whatever got built.
+
+Name the runner that executes them, or say plainly that nothing does and they are criteria only.
+
 ## Three worst failure scenarios
+
+Not the same thing as the section above, and neither replaces the other: acceptance scenarios say
+what the change must do, these say how it breaks.
 
 **Mandatory.** Not a risk checklist: the three specific ways *this* change hurts, ranked by what
 they would cost. See "Pair Programming Mode" in [`../../CLAUDE.md`](../../CLAUDE.md).

@@ -43,12 +43,24 @@ commit message is enough.
 
 ## How
 
-1. Copy [`0000-template.md`](0000-template.md) to `NNNN-short-kebab-title.md`, where `NNNN` is the
+1. **Start from a theme.** A release is about one thing, said in one sentence; if the sentence
+   needs an "and", it is two themes and it gets two RFCs. See "Releases have a theme" in
+   [`../RULES.md`](../RULES.md).
+2. Copy [`0000-template.md`](0000-template.md) to `NNNN-short-kebab-title.md`, where `NNNN` is the
    next free number. Numbers are never reused, including by a rejected RFC.
-2. Open it as a pull request, like everything else here — see [`../RULES.md`](../RULES.md). The
-   discussion belongs in the PR, where it is attached to the diff.
-3. Merge with the status set to what was actually decided. **A rejected RFC is merged too**: the
+3. Open it as a pull request, like everything else here. The discussion belongs in the PR, where
+   it is attached to the diff.
+4. **Agree the RFC with the user before writing a single scenario.** This is a gate, not a
+   formality: an RFC settled after the scenarios exist is a justification for them.
+5. **Write the acceptance scenarios in Gherkin, and agree those too before any code.** They live
+   with the RFC in the same pull request. Scenarios written after an implementation describe what
+   was built, not what was wanted, and nobody can tell the difference by reading them.
+6. Merge with the status set to what was actually decided. **A rejected RFC is merged too**: the
    argument against is the part that stops the idea coming back every six months.
+
+The two gates are the point of the sequence, and they survive the autonomy rule in
+[`../../CLAUDE.md`](../../CLAUDE.md) — waiting at a defined handoff is not the same as stopping to
+ask about the obvious.
 
 ## Status
 
