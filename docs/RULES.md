@@ -76,6 +76,22 @@ stops applying.
 - **No LLM provider is configured by default**, so captured prompts and tool excerpts stay on the
   machine. Adding one is a decision about where that content goes.
 
+## Documentation
+
+- **A Markdown file stays under 50 KiB.** Past that it stops being read and starts being skimmed,
+  which is worse than being short: it still looks authoritative. A diff that size is not reviewed
+  either, it is approved.
+- **When a file reaches the limit, split it and link** — do not compress the prose until it fits.
+  The length was the signal; deleting the explanations that made it long throws away the part
+  worth keeping.
+- **`CHANGELOG.md` is exempt.** It only grows, it is written by release-please rather than by a
+  person, and blocking a release commit on it would teach everyone to reach for `--no-verify` —
+  which turns off every other check at the same time.
+- **The check is `scripts/check-md-size.sh`**, wired to `.githooks/pre-commit`. Enable it per
+  clone with `git config core.hooksPath .githooks`; git config is not versioned, so no commit can
+  turn it on for you. There is no CI in a consuming repo to catch this afterwards, so an unenabled
+  hook means the rule is only as real as the person remembering to run the script.
+
 ## Verification
 
 - **Changes under `.code-server/` are verified by the template's own CI**, which builds an image
