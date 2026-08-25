@@ -99,6 +99,35 @@ project files, written in the documentation language chosen above.
 so that someone qualified has something to review. Never present generated policy text as
 compliant, and say plainly that it has not been reviewed.
 
+Beyond the five questions, one recommendation to make out loud: **build for accessibility and
+internationalisation from the first screen, not as a later pass.** Put it in terms of cost rather
+than virtue, because that is what is actually true — both are nearly free while the structure is
+being laid and expensive afterwards. i18n retrofitted means hunting every literal string in the
+codebase and finding the ones built by concatenation. Accessibility retrofitted means redoing
+markup, focus order and colour decisions that everything else was already built on top of.
+
+What that means on day one, concretely:
+
+- **Strings leave the code from the first commit** — a catalogue keyed by identifier, not literals
+  to be extracted later. A single locale is fine; the point is the seam, not the translation.
+- **Dates, numbers and currency are formatted by locale**, and translated fragments are never
+  concatenated into sentences — word order is not a constant across languages.
+- **Semantic markup and real controls before ARIA**, everything reachable by keyboard, focus
+  visible. ARIA patches what HTML cannot express; it is not a substitute for expressing it.
+- **Contrast and text sizing live in the design tokens**, decided once, rather than per component
+  where they drift.
+- **A check in CI as soon as there is something to check.** The rule from below applies here too:
+  a stated intention with no test is a stated intention.
+
+Scope it honestly. A CLI, a library or a service with no interface still has user-facing messages,
+so the i18n seam applies; most of the accessibility list does not. Recommending the whole thing to
+a project that has no UI is ritual, and ritual is what teaches people to skip the parts that
+mattered.
+
+It is a recommendation, not a gate. If the user declines, record it in RFC `0001` with the reason,
+like everything else here — an omission with a reason attached can be revisited; one without looks
+like an oversight forever.
+
 Once it is settled, proceed under the chosen mode: update the base files (`README.md`, `CLAUDE.md`,
 `docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
 consuming repo's root) to reflect the answers, and assemble an initial structure from them.
