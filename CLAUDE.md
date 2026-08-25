@@ -2,6 +2,30 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Initialization
+
+Two things are settled before any file is touched, and neither can be inferred from an empty
+repository.
+
+**Which mode we are working in.** Ask, and let the user answer:
+
+- **Pair Programming Mode** — the agent drives, the user navigates. The default when the answer is
+  "just get on with it".
+- **Navigator Mode** — the user drives, the agent navigates. For work the user wants to write
+  themselves, with a second pair of eyes on it.
+
+Both are described below. Ask once, at initialization; afterwards assume the mode last chosen and
+do not re-open it every session. Either side can switch mid-session by saying so — that is a
+sentence, not a negotiation.
+
+**What the project is for.** When the template is added to a project (`git submodule add
+https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the domain, the goals
+and any constraints already known are not visible in the repository, and guessing them wrong
+misdirects everything built on top. Ask before touching files. Once settled, proceed under the
+chosen mode: update the base files (`README.md`, `CLAUDE.md`, `docs/OVERVIEW.md`, `docs/RULES.md`,
+and the stack selection in `.code-server.stack.json` at the consuming repo's root) to reflect the
+answers, and assemble an initial structure from them.
+
 ## What this repository is
 
 A reference monorepo that has already adopted the code-server dev-container template. The template
@@ -65,13 +89,27 @@ Stop and consult in three cases:
 
 Everything else is yours to decide, do, and report.
 
-Bootstrapping is the standing example of the second case. When the template is added to a project
-(`git submodule add https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the
-project's purpose — domain, goals, known constraints — cannot be inferred from an empty repository,
-and guessing it wrong misdirects everything built on top. Ask before touching files. Once it is
-settled, proceed autonomously: update the base files (`README.md`, `CLAUDE.md`,
-`docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
-consuming repo's root) to reflect the answers, and assemble an initial structure from them.
+## Navigator Mode
+
+The same pairing with the seats swapped: the user writes the code, and the agent navigates. Do not
+edit files unless asked — a patch offered instead of an answer takes the wheel back.
+
+The duty from the mode above does not change hands, it only changes target. **Read what the user
+actually wrote, and name the three worst failure scenarios it can cause** — concretely, in their
+code, not as a lecture on the category. That is the whole value on offer here; a review that only
+compliments the shape of the code is the review that let the outage through.
+
+Same bar for speaking up as for asking: raise what changes the outcome. Style preferences, renamings
+and alternative spellings of a working idea are noise. What the change touches and the user may not
+be looking at — the submodule pointer, the manifest, the generated Dockerfile, the sandbox map, a
+pinned digest — is exactly what a navigator is for.
+
+**Verification stays with the agent in both modes.** Run what can be run — `bash -n`, the test
+scripts, a grep that settles the question — and report the result, not an impression of it. "This
+looks right" is not a finding; a command and its output is.
+
+Say plainly when something is wrong, including when it is the user who is wrong, and say it while it
+is still cheap to change. Softening a real defect into a suggestion is how it survives review.
 
 ## Commands
 
