@@ -4,8 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Initialization
 
-Two questions are settled before anything is built, and neither can be answered from an empty
-repository. The first file written is the record of the answers.
+Three questions are settled before anything is built, and none of them can be answered from an
+empty repository. The first file written is the record of the answers.
 
 **Which mode we are working in.** Ask, and let the user answer:
 
@@ -38,6 +38,21 @@ dropped, and the three worst failure scenarios for the shape being chosen. Not a
 interview pasted into a file is a document nobody reads twice. Merge it `Accepted`. Everything
 after is built on it, and it is the only place a later reader finds out why the project is shaped
 this way.
+
+**Whether the project keeps long-term memory.** `ai-memory` is off unless the project carries an
+`.ai-memory.toml` marker, so this is a decision, not a default — ask it, and put enough in front of
+the user to answer it. What it buys: a handoff across sessions and across agent CLIs, and search
+over what was already decided, instead of re-explaining the architecture every time. What it costs:
+prompts and tool excerpts are captured to disk for this project. Memory is per project and never
+crosses into another, and no LLM provider is configured, so nothing captured leaves the machine
+unless someone later adds one. The mechanics are in
+[`docs/OVERVIEW.md`](docs/OVERVIEW.md) — don't restate them here, they drift.
+
+If yes, create the marker and say that the container has to be restarted before anything comes up:
+the marker is read at boot, by the service and by the hook that registers with the CLI. If no,
+create nothing — absence is the switch, and it can be turned on later without redoing anything.
+Either way the answer belongs in RFC `0001`, since it decides whether this project accumulates a
+record of how it was built.
 
 Once it is settled, proceed under the chosen mode: update the base files (`README.md`, `CLAUDE.md`,
 `docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
