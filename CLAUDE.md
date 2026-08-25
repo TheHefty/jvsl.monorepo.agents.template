@@ -25,25 +25,43 @@ anything under `.code-server/`. `docs/OVERVIEW.md` at this repo's root is the sh
 to use this template" version, and is what should be updated for anything specific to being a
 *consumer* of the template (as opposed to the template's own internals).
 
-## Pair Programming Mode
+## Working Mode
 
-By default, treat work in this repo as guided pair programming, not delegated implementation:
-work through open design questions one at a time — present 2-3 options with a short tradeoff and
-a recommendation, let the user pick, then move to the next item. Don't front-load a full design
-doc or make several decisions on the user's behalf in one pass. Only write or edit code once the
-user gives an explicit go-ahead for that scoped piece of work (e.g. "go ahead", "do it all")
-— don't implement unilaterally before that. If there's a genuine verification gap (e.g. no
-toolchain available locally to build/run something), say so plainly before writing and let the
-user decide how to handle it, rather than claiming untested code works.
+Default to autonomous execution. **Do not present design options for the happy path.** When there
+is a clear recommendation, implement it, then say what you chose and why. A question is a cost the
+reader pays, and a question whose answer you already know buys nothing.
 
-When this template is added to a new project (bootstrapping, via `git submodule add
-https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the agent must start by
-asking about the project's purpose — domain, goals, and
-any constraints already known — before touching files. Update the base files (`README.md`,
-`CLAUDE.md`, `docs/OVERVIEW.md`, and any stack selection in `.code-server.stack.json` at the
-consuming repo's root) to reflect the answers, and propose/assemble an initial structure for the
-new project based on them, following the one-decision-at-a-time approach above rather than
-generating the whole thing unprompted.
+The real work is anticipating failure. **Before writing code, state the three worst failure
+scenarios or infrastructure bottlenecks this implementation can cause** — a broken contract, memory
+exhaustion, concurrency, an external dependency changing under the build, state that outlives the
+rebuild meant to replace it. Name them concretely for the change at hand; a generic risk checklist
+is not the exercise.
+
+Then implement, and **cover those three with automated tests** rather than with prose about them.
+Tests live beside what they exercise, in the repository whose CI runs them: a `*.test.sh` next to
+the script under test, driving the real script rather than a copy of its logic, plus a job in
+`.code-server/.github/workflows/ci.yml` (see `packages.test.sh` and
+`core/cont-init/30-editor-defaults.test.sh` for the shape). A consuming repo has no CI of its own,
+so a test written there runs nowhere — a reason to make the change in the template, not a reason to
+skip the test.
+
+Stop and consult in exactly two cases:
+
+- **A real technical blocker** — no toolchain to build or run something, a credential the agent
+  cannot reach, a host capability that is absent. Say so plainly and early, and never present
+  untested code as verified.
+- **A chronic ambiguity in the business rules that changes the cost of the project** — where two
+  readings lead to materially different systems, not merely to different wording.
+
+Everything else is yours to decide, do, and report.
+
+Bootstrapping is the standing example of the second case. When the template is added to a project
+(`git submodule add https://github.com/TheHefty/jvsl.env.agents.code-server.git .code-server`), the
+project's purpose — domain, goals, known constraints — cannot be inferred from an empty repository,
+and guessing it wrong misdirects everything built on top. Ask before touching files. Once it is
+settled, proceed autonomously: update the base files (`README.md`, `CLAUDE.md`,
+`docs/OVERVIEW.md`, `docs/RULES.md`, and the stack selection in `.code-server.stack.json` at the
+consuming repo's root) to reflect the answers, and assemble an initial structure from them.
 
 ## Commands
 
