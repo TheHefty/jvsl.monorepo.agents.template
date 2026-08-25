@@ -62,25 +62,34 @@ can grep. The files inherited from the template arrive in English; translating t
 answer, not a separate errand. Conversation language is a different thing and does not need
 settling here — the user sets it by speaking.
 
-**Whether the project is public.** Public meaning reachable by people outside the team: a site, an
-API, an app, a repository open to outside contributions. This decides what the project has to be
-built on top of, and retrofitting it is the expensive path.
+**Who the project is for.** Not public versus private: what decides the legal baseline is whose
+data is processed and to what end. Three shapes, and they are not points on a scale.
 
-- **LGPD (Lei 13.709/2018)** applies whenever personal data is processed, and *private is not
-  exempt* — an internal system holding employee or customer data is squarely in scope. Settle at
-  initialization: whether any personal data is touched at all, which of it is sensitive, the
-  purpose and legal basis for each use, how long it is kept, how subject requests are answered,
-  and who the controller is. **If nothing personal is processed, record that** — it is the answer
-  that saves the most work later, and the one nobody writes down.
-- **Marco Civil da Internet (Lei 12.965/2014)** applies to serving an application over the
-  internet: terms of use and a privacy policy that are actually reachable, obligations around
-  keeping access records, and disclosure only under judicial order. Confirm current retention
-  periods against the law rather than trusting a number quoted in a document like this one; that
-  is the part that changes.
+- **Personal use** — one person building for themselves, on their own data, with no economic
+  purpose. LGPD puts this outside its scope (Lei 13.709/2018, art. 4º, I, *"realizado por pessoa
+  natural para fins exclusivamente particulares e não econômicos"*), and there is no application
+  provider serving third parties for the Marco Civil to reach. Record it as the answer, and record
+  **what would end it**: opening it to other people, charging for it, or storing data belonging to
+  anyone else. That transition is the one nobody notices happening, and it is where a project
+  acquires obligations it was never designed for. Ask whether the user wants privacy rules anyway
+  — plenty of personal projects want them, for reasons that have nothing to do with the law — and
+  if not, record the decision **and its reason**, so the next reader can tell it was decided
+  rather than overlooked.
+- **Private but not personal** — internal to a team or a company, or holding data about employees,
+  clients or users. In scope. The exclusion above is about a natural person acting for themselves;
+  it is not about a system being unpublished.
+- **Public** — reachable by people outside the team: a site, an API, an app, a repository open to
+  outside contributions. In scope, plus the obligations that come with serving an application over
+  the internet.
 
-If the project is private, ask whether it wants privacy rules anyway rather than assuming it does
-not. If yes, same treatment. If no, record the decision **and its reason**, so the next person can
-tell it was decided rather than overlooked.
+For the second and third, settle at initialization: whether any personal data is touched at all,
+which of it is sensitive, the purpose and legal basis for each use, how long it is kept, how
+subject requests are answered, and who the controller is. **If nothing personal is processed,
+record that** — it is the answer that saves the most work later, and the one nobody writes down.
+For the third, the **Marco Civil da Internet (Lei 12.965/2014)** adds terms of use and a privacy
+policy that are actually reachable, obligations around keeping access records, and disclosure only
+under judicial order. Confirm current retention periods against the law rather than trusting a
+number quoted in a document like this one; that is the part that changes.
 
 Whatever the answer, it goes in RFC `0001` as a data map — what personal data exists, why, where
 it lives, how long it stays — and the standing rules go in `docs/RULES.md`. Policy and terms are
