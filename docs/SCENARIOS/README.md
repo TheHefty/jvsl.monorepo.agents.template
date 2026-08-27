@@ -1,36 +1,8 @@
 # Scenarios
 
-The acceptance criteria of this project, in Gherkin. One `.feature` per RFC, named for it:
-`0007-offline-drafts.feature` belongs to `../RFC/0007-offline-drafts.md`.
+The acceptance scenarios of this repository live here, in Gherkin, one `.feature` per RFC. What
+they are, what they are not, and how they are kept true ships with the template: see
+[`.code-server/docs/agent/en/SCENARIOS.md`](../../.code-server/docs/agent/en/SCENARIOS.md).
 
-## What they are
-
-`Given` / `When` / `Then`, written in the language the documentation uses, describing behaviour a
-person cares about rather than functions a programmer wrote. They are agreed with the user before
-any code is written — that agreement is the whole point, and it is what separates a criterion from
-a description of whatever got built.
-
-## What they are not
-
-**Tests.** Nothing here is executed. These are documentation, and what holds the code to them is
-the project's own test suite, written test-first from these scenarios — see Testing in
-[`../RULES.md`](../RULES.md).
-
-That is a deliberate choice rather than an omission, and it has one failure mode worth naming: a
-`.feature` read as though CI enforced it lets a project ship on a belief nobody ever checked. If
-you want them executable, that is a runner someone chooses, wires up, and says so about.
-
-They are also not the *failure* scenarios. Those live in the RFC — three per change, the worst ways
-it breaks — and neither kind substitutes for the other: acceptance scenarios say what the change
-must do, failure scenarios say how it goes wrong.
-
-## Keeping them true
-
-A scenario and its RFC carry the same number and are edited in the same pull request. Two documents
-describing one behaviour, updated separately, become two behaviours, and the reader has no way to
-tell which one the code implements. When an RFC is superseded, its scenarios move or go with it.
-
----
-
-**In this repository this folder is a scaffold.** It is the template, not a project built on it, so
-there is nothing to accept yet — the same reason [`../RFC/`](../RFC/) carries no numbered files.
+This folder is empty, which is the correct state here, for the same reason
+[`../RFC/`](../RFC/) is.

@@ -26,8 +26,15 @@ selection, written by `.code-server/setup`.
 
 ## Docs
 
+- [`CLAUDE.md`](CLAUDE.md) — the entry point an agent loads. It keeps what has to survive the
+  submodule not being checked out, and imports the rest from the template.
+- [`docs/RULES.md`](docs/RULES.md) — one import line for the inherited rules, plus whatever this
+  project adds below it.
+- [`.code-server/docs/agent/`](.code-server/docs/agent/) — inside the submodule: the process
+  documents themselves, one folder per language. They ship with the template and arrive by bumping
+  it, rather than being copied once at project creation and then quietly frozen.
 - [`docs/OVERVIEW.md`](docs/OVERVIEW.md) — short "how to use this template" guide.
-- [`.code-server/docs/OVERVIEW.md`](.code-server/docs/OVERVIEW.md) — inside the submodule: full
+- [`.code-server/docs/overview/`](.code-server/docs/overview/) — inside the submodule: full
   design rationale for the template itself — every decision made, the `core/`/`stacks/` structure,
   the manifest format, and build issues already hit and fixed. Treated as the authoritative,
   up-to-date spec for anything under `.code-server/`; versions together with
