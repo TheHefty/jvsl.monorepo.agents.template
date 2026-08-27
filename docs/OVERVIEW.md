@@ -11,7 +11,7 @@ opens the environment in a native window).
 
 The full design — decisions made, the structure of `core/`/`stacks/`, the manifest format, bugs
 already hit and fixed — is in
-[`.code-server/docs/OVERVIEW.md`](../.code-server/docs/OVERVIEW.md), inside the submodule (so it
+[`.code-server/docs/overview/`](../.code-server/docs/overview/), inside the submodule (so it
 versions with the template, not with this consuming repo). This document is just the "how to use
 it" summary, and covers what's specific to being a *consumer* of the template.
 [`RULES.md`](RULES.md) alongside it carries the ground rules a project built on this template is

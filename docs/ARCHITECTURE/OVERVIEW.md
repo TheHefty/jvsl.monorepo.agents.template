@@ -6,7 +6,7 @@ What this repository is, right now.
 code-server dev-container template: root-level scaffolding, a submodule, and no application code.
 What the environment itself is made of — the container, the sandbox, the nested rootless Docker
 daemon, the launcher — belongs to the template and is documented in
-[`.code-server/docs/OVERVIEW.md`](../../.code-server/docs/OVERVIEW.md), which versions with it
+[`.code-server/docs/overview/`](../../.code-server/docs/overview/), which versions with it
 rather than with this repository.
 
 A project built on this template fills this file in as its system grows. How to write it, and the

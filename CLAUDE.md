@@ -51,12 +51,12 @@ This repo is not itself an application — there is no product code here, only t
 scaffolding a consuming monorepo keeps outside the submodule: this `CLAUDE.md`, `README.md`,
 `docs/OVERVIEW.md`, `docs/RULES.md` (one import line plus whatever the project adds), the empty
 `docs/RFC/` and `docs/SCENARIOS/` folders, and `.code-server.stack.json` (the per-project stack
-selection — see "Manifest" in `.code-server/docs/OVERVIEW.md` for why it cannot live inside the
+selection — see "Manifest" in `.code-server/docs/overview/setup.md` for why it cannot live inside the
 submodule).
 
 Full design rationale for the template — every decision made, the exact structure of
 `core/`/`stacks/`, the manifest format, how the process documents are delivered, and every build
-error hit and fixed along the way — is recorded in `.code-server/docs/OVERVIEW.md`, inside the
+error hit and fixed along the way — is recorded in `.code-server/docs/overview/`, inside the
 submodule, so it versions together with the template rather than with this consuming repo. Treat
 that file as the authoritative, up-to-date spec for anything under `.code-server/`.
 `docs/OVERVIEW.md` at this repo's root is the short user-facing "how to use this template" version.
@@ -75,7 +75,7 @@ Build the native launcher (Rust/Tauri; once, or after editing `.code-server/star
 cd .code-server/start && cargo build --release
 ```
 Requires Rust and the Tauri Linux prerequisites — exact packages per distro are in
-`.code-server/docs/OVERVIEW.md`.
+`.code-server/docs/overview/start.md`.
 
 Launch the environment:
 ```bash
@@ -96,7 +96,7 @@ stack — plus `ci-green`, the single check the template's branch protection req
 
 ## Architecture
 
-The detail is in `.code-server/docs/OVERVIEW.md` and is not repeated here. What a reader needs
+The detail is in `.code-server/docs/overview/` and is not repeated here. What a reader needs
 before opening it:
 
 - **`core/`** — the mandatory base layer: code-server, Node.js, the Claude Code CLI, `ai-jail`, the

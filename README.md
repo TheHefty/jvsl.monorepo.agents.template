@@ -34,7 +34,7 @@ selection, written by `.code-server/setup`.
   documents themselves, one folder per language. They ship with the template and arrive by bumping
   it, rather than being copied once at project creation and then quietly frozen.
 - [`docs/OVERVIEW.md`](docs/OVERVIEW.md) — short "how to use this template" guide.
-- [`.code-server/docs/OVERVIEW.md`](.code-server/docs/OVERVIEW.md) — inside the submodule: full
+- [`.code-server/docs/overview/`](.code-server/docs/overview/) — inside the submodule: full
   design rationale for the template itself — every decision made, the `core/`/`stacks/` structure,
   the manifest format, and build issues already hit and fixed. Treated as the authoritative,
   up-to-date spec for anything under `.code-server/`; versions together with
