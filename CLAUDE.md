@@ -10,13 +10,22 @@ Guidance for Claude Code (claude.ai/code) working in this repository.
   the commit messages.
 - **This repository is the template itself, so the rules it ships do not govern it.** They govern
   projects built on it. A change here is a change to what projects will inherit.
+- **There is no initialization to run here, and the interview is deliberately not imported.**
+  Initialization is a project's first act, and this is not a project — it is the reference monorepo
+  that ships the interview to others. While the process documents were copies kept at this root,
+  importing `INITIALIZATION.md` at least held the text projects would inherit in front of the agent.
+  That reason left with the documents: they ship from the submodule now, so the checklist was
+  costing every session 11.6 KiB to describe a moment that never happens here. It is read at
+  `.code-server/docs/agent/en/INITIALIZATION.md` when the subject is the interview itself.
 
 ## If the imports below did not load
 
-The normative documents — the modes, the rules, the initialization interview — ship from the
-template and are pulled in by the `@path` lines below. They live inside the `.code-server/`
-submodule, which is **empty until `git submodule update --init`**, and an import that resolves to
-nothing may resolve silently.
+The normative documents — the modes and the rules — ship from the template and are pulled in by the
+`@path` lines below. They live inside the `.code-server/` submodule, which is **empty until
+`git submodule update --init`**, and an import that resolves to nothing **resolves to nothing
+silently: no error, no warning**. That is observed behaviour, not a guess — see "Open edges" in
+`docs/ARCHITECTURE/OVERVIEW.md` for the fixture and the output. The one cue left is that the `@`
+line below stays visible with no content behind it.
 
 So: if you cannot see the pairing modes or the ground rules in your context, **stop and say so**
 rather than proceeding. An agent working without them is not working under a lighter process, it is
@@ -24,7 +33,6 @@ working with no mode, no rules and no gates, and nothing failed to tell anybody.
 particular exist and are not optional — the RFC agreed with the user before any scenario is
 written, and the scenarios agreed before any code is.
 
-@.code-server/docs/agent/en/INITIALIZATION.md
 @.code-server/docs/agent/en/MODES.md
 @docs/RULES.md
 
