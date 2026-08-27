@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.3.0...v1.4.0) (2026-08-27)
+
+
+### Features
+
+* bump .code-server to v1.6.0 ([6521f90](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/6521f908488ad07f3e75685f5aef80cf95f0c542))
+* import the process documents instead of carrying copies of them ([a81a3a0](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/a81a3a0c4ea5b8d28d9ce90a8a6f03d3bef50c1b))
+* stop importing the initialization interview ([6c231ed](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/6c231ed2c8768a92a10eb4b69184f8546804e4f9))
+
 ## [1.3.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.2.0...v1.3.0) (2026-08-25)
 
 
