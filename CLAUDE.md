@@ -138,9 +138,17 @@ maintainer), but the rule applies to administrators too, and force-pushes and br
 blocked. There are no required status checks, because this repo has no CI of its own: a PR here is
 mergeable as soon as it is open. Head branches are deleted automatically on merge.
 
-**Give the release PR a non-conventional title.** A merge commit carrying a conventional-commit
-title is read a second time by release-please and the changelog gets duplicate entries — observed
-through 1.4.0 and 1.5.0, and confirmed fixed in 1.5.2.
+**Give every PR merged with a merge commit a non-conventional title, not only the release PR.**
+`gh pr merge --merge` writes the pull request's title into the body of the merge commit, so a PR
+titled `feat: ...` is read by release-please a second time and the entry lands in the changelog
+twice — once for the real commit, once for the merge that carried it. Observed through 1.4.0 and
+1.5.0, and again in the template at 1.6.0, where a feature PR was given a conventional title.
+
+This file used to say the duplicate was "confirmed fixed in 1.5.2". It was not. Nothing was fixed:
+no feature PR between 1.5.2 and 1.6.0 happened to carry a conventional title, and an absence of
+symptoms was read as a repair. The fix, when it happens, is either a non-conventional PR title or
+dropping the duplicate line from the changelog on the release branch before merging it —
+`cc672fb` in the template is the precedent.
 
 `bootstrap-sha` pins the changelog's starting point at `54628be`, the commit that vendored the
 template as a submodule. Everything before it describes `core/`/`stacks/` work that has since moved
