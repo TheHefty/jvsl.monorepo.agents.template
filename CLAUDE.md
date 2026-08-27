@@ -138,17 +138,28 @@ maintainer), but the rule applies to administrators too, and force-pushes and br
 blocked. There are no required status checks, because this repo has no CI of its own: a PR here is
 mergeable as soon as it is open. Head branches are deleted automatically on merge.
 
-**Give every PR merged with a merge commit a non-conventional title, not only the release PR.**
-`gh pr merge --merge` writes the pull request's title into the body of the merge commit, so a PR
-titled `feat: ...` is read by release-please a second time and the entry lands in the changelog
-twice — once for the real commit, once for the merge that carried it. Observed through 1.4.0 and
-1.5.0, and again in the template at 1.6.0, where a feature PR was given a conventional title.
+**Give a feature PR a non-conventional title when it is merged with a merge commit. Never the
+release PR.** The two halves are opposite and both were learned the hard way at 1.6.0.
 
-This file used to say the duplicate was "confirmed fixed in 1.5.2". It was not. Nothing was fixed:
-no feature PR between 1.5.2 and 1.6.0 happened to carry a conventional title, and an absence of
-symptoms was read as a repair. The fix, when it happens, is either a non-conventional PR title or
-dropping the duplicate line from the changelog on the release branch before merging it —
-`cc672fb` in the template is the precedent.
+`gh pr merge --merge` writes the pull request's title into the body of the merge commit, so a
+feature PR titled `feat: ...` is read by release-please a second time and the entry lands in the
+changelog twice — once for the real commit, once for the merge that carried it. Observed through
+1.4.0 and 1.5.0, and again at 1.6.0.
+
+The release PR is the exact opposite: release-please parses the version out of its title, against
+the pattern `chore${scope}: release ${version}`. Rename it and the next run finds the merged PR,
+cannot read a version from it, and aborts with `There are untagged, merged release PRs outstanding`
+— the release is merged, the changelog is on `main`, and no tag exists. Recovering means restoring
+the title and re-running the workflow.
+
+This file used to say the duplicate was "confirmed fixed in 1.5.2". It was not: no feature PR
+between 1.5.2 and 1.6.0 happened to carry a conventional title, and an absence of symptoms was
+written down as a repair.
+
+When a duplicate does land, it has to be removed in two places. Drop the line from `CHANGELOG.md`
+on the release branch before merging it (`cc672fb` in the template is the precedent) — and then fix
+the GitHub release body too, because release-please generates the release notes from the commits
+rather than from the file, so the file being clean does not make the release page clean.
 
 `bootstrap-sha` pins the changelog's starting point at `54628be`, the commit that vendored the
 template as a submodule. Everything before it describes `core/`/`stacks/` work that has since moved
