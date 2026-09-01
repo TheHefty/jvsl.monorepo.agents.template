@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.4.0...v1.5.0) (2026-09-01)
+
+
+### Features
+
+* bump .code-server to v1.7.0 ([9629704](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/96297040c9df64e2c9edf341ccc9c17f376ac6fa))
+
 ## [1.4.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.3.0...v1.4.0) (2026-08-27)
 
 
