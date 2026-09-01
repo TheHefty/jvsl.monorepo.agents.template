@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.5.0...v1.6.0) (2026-09-01)
+
+
+### Features
+
+* route AGENTS-aware clients through project instructions ([435a27e](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/435a27eca7be7f7192acef5aa5d5957c72f50e80))
+* scaffold skills for AGENTS-aware clients ([88136a8](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/88136a82d2a5ed2a69580b4fd5bd9615a4870500))
+* ship ai-memory's routing skills as scaffolding ([68adfa2](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/68adfa2068e8fa7c5e4f7a1ace5350b4c84f6dd2))
+
 ## [1.5.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.4.0...v1.5.0) (2026-09-01)
 
 
