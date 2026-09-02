@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.6.0...v1.7.0) (2026-09-02)
+
+
+### Features
+
+* reduce AGENTS.md to a pointer to CLAUDE.md ([a0602c7](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/a0602c7201a84f5fa3354809df0b46895ec5a417))
+* vendor the grilling skills and drop the plugin ([c0d53cf](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/c0d53cfaa808e062161ab3e0be775b85247cdd11))
+
 ## [1.6.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.5.0...v1.6.0) (2026-09-01)
 
 
