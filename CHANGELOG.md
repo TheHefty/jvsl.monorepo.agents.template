@@ -5,7 +5,6 @@
 
 ### Features
 
-* bump .code-server to v1.10.0 ([dd0c13b](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/dd0c13bf1a25ae9cf3a26e43a1c0e376f641a0f7))
 * bump .code-server to v1.10.0 ([cf3724e](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/cf3724ef71f5aa0a3727bba15f2a4dff187f61dd))
 * reduce AGENTS.md to a pointer to CLAUDE.md ([a0602c7](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/a0602c7201a84f5fa3354809df0b46895ec5a417))
 * vendor the grilling skills and drop the plugin ([c0d53cf](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/c0d53cfaa808e062161ab3e0be775b85247cdd11))
