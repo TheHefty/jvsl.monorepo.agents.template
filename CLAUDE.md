@@ -15,7 +15,7 @@ Guidance for Claude Code (claude.ai/code) working in this repository.
   that ships the interview to others. While the process documents were copies kept at this root,
   importing `INITIALIZATION.md` at least held the text projects would inherit in front of the agent.
   That reason left with the documents: they ship from the submodule now, so the checklist was
-  costing every session 11.6 KiB to describe a moment that never happens here. It is read at
+  costing every session 13.4 KiB to describe a moment that never happens here. It is read at
   `.code-server/docs/agent/en/INITIALIZATION.md` when the subject is the interview itself.
 
 ## If the imports below did not load
@@ -29,9 +29,10 @@ line below stays visible with no content behind it.
 
 So: if you cannot see the pairing modes or the ground rules in your context, **stop and say so**
 rather than proceeding. An agent working without them is not working under a lighter process, it is
-working with no mode, no rules and no gates, and nothing failed to tell anybody. Two gates in
-particular exist and are not optional — the RFC agreed with the user before any scenario is
-written, and the scenarios agreed before any code is.
+working with no mode, no rules and no gates, and nothing failed to tell anybody. Four gates in
+particular exist and are not optional — the charter agreed with the user before the SRS, the SRS
+before any story, a story's scenarios before its tasks, and a task's design before its code. The
+chain is `.code-server/docs/agent/en/WORKFLOW.md`.
 
 @.code-server/docs/agent/en/MODES.md
 @docs/RULES.md
@@ -50,7 +51,7 @@ upstream template history.
 This repo is not itself an application — there is no product code here, only the root-level
 scaffolding a consuming monorepo keeps outside the submodule: this `CLAUDE.md`, `README.md`,
 `docs/OVERVIEW.md`, `docs/RULES.md` (one import line plus whatever the project adds), the empty
-`docs/RFC/` and `docs/SCENARIOS/` folders, and `.code-server.stack.json` (the per-project stack
+`docs/PLANNING/` and `docs/DEBTS/` folders, and `.code-server.stack.json` (the per-project stack
 selection — see "Manifest" in `.code-server/docs/overview/setup.md` for why it cannot live inside the
 submodule).
 
