@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.7.0...v1.8.0) (2026-09-10)
+
+
+### Features
+
+* adopt .code-server 2.0.0 — the charter/SRS/story/task chain ([8e5c5a5](https://github.com/TheHefty/jvsl.monorepo.agents.template/commit/8e5c5a5c2457502c858c1c8fc355debcc5980193))
+
 ## [1.7.0](https://github.com/TheHefty/jvsl.monorepo.agents.template/compare/v1.6.0...v1.7.0) (2026-09-05)
 
 
